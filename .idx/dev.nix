@@ -6,9 +6,9 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     # pkgs.go
-    pkgs.python314
+    pkgs.python312
     pkgs.uv
-    # pkgs.python311Packages.pip
+    # pkgs.python312Packages.pip
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
   ];
@@ -41,10 +41,11 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
+        install-py-deps = "uv pip install flask '''./JOST_ENGINE_5'''";
         # Example: install JS dependencies from NPM
         # npm-install = "npm install";
         # Open editors for the following files by default, if they exist:
-        default.openFiles = [ "README.md" ];
+        default.openFiles = [ "README.md" "PROJECT_PLAN.md" "TODO_ADVANCED.md" ];
       };
       # Runs when the workspace is (re)started
       onStart = {
