@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <section id="simulation-config">
+        <h2>Configure Simulation</h2>
+        <form id="simulation-form">
+            <div class="form-group">
+                <h3>Player Setup</h3>
+                <label for="player-name">Player Name:</label>
+                <input type="text" id="player-name" name="player_name" value="Stan (Basic Strategy)">
+                <label for="bankroll">Starting Bankroll:</label>
+                <input type="number" id="bankroll" name="bankroll" value="10000">
+            </div>
+
+            <div class="form-group">
+                <h3>Strategy Selection</h3>
+                <label for="playing-strategy">Playing Strategy:</label>
+                <select id="playing-strategy" name="playing_strategy">
+                    {% for strategy in playing_strategies %}
+                        <option value="{{ strategy }}">{{ strategy.replace('.json', '').replace('_', ' ') | title }}</option>
+                    {% endfor %}
+                </select>
+                <label for="betting-strategy">Betting Strategy:</label>
+                <select id="betting-strategy" name="betting_strategy">
+                    {% for strategy in betting_strategies %}
+                        <option value="{{ strategy }}">{{ strategy.replace('.json', '').replace('_', ' ') | title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <h3>Casino Rules</h3>
+                <div id="casino-rules-summary">
+                    <p><strong>Decks:</strong> {{ casino_rules.deck_count }}</p>
+                    <p><strong>Dealer Stands on Soft 17:</strong> {{ 'Yes' if casino_rules.dealer_stands_on_soft_17 else 'No' }}</p>
+                    <p><strong>Blackjack Payout:</strong> {{ casino_rules.blackjack_payout }}:1</p>
+                    <p><strong>Resplits Allowed:</strong> {{ 'Yes' if casino_rules.allow_resplit_to_hands > 1 else 'No' }} (to {{ casino_rules.allow_resplit_to_hands }} hands)</p>
+                    <p><strong>Double After Split:</strong> {{ 'Yes' if casino_rules.allow_double_after_split else 'No' }}</p>
+                </div>
+            </div>
+
+            <button type="submit">Run Simulation</button>
+        </form>
+    </section>
+
+    <section id="simulation-results">
+        <h2>Simulation Results</h2>
+        <div id="results-output">
+            <p>Simulation has not been run yet.</p>
+        </div>
+    </section>
+{% endblock %}
