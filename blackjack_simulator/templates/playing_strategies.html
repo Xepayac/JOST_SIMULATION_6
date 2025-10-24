@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Playing Strategies</h1>
+
+    <h2>Available Playing Strategies</h2>
+    <ul>
+        {% for strategy in strategies %}
+            <li>
+                <strong>{{ strategy }}</strong>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

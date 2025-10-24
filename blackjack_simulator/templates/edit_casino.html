@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Edit Casino: {{ casino.name }}</h1>
+
+    <form method="post">
+        <input type="hidden" name="simulation_id" value="{{ simulation_id }}">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ casino.name }}" required>
+        </div>
+        <div>
+            <label for="deck_count">Deck Count:</label>
+            <input type="number" id="deck_count" name="deck_count" value="{{ casino.deck_count }}" required>
+        </div>
+        <div>
+            <label for="dealer_stands_on_soft_17">Dealer Stands on Soft 17:</label>
+            <input type="checkbox" id="dealer_stands_on_soft_17" name="dealer_stands_on_soft_17" {% if casino.dealer_stands_on_soft_17 %}checked{% endif %}>
+        </div>
+        <div>
+            <label for="blackjack_payout">Blackjack Payout:</label>
+            <input type="number" step="0.1" id="blackjack_payout" name="blackjack_payout" value="{{ casino.blackjack_payout }}" required>
+        </div>
+        <div>
+            <label for="allow_late_surrender">Allow Late Surrender:</label>
+            <input type="checkbox" id="allow_late_surrender" name="allow_late_surrender" {% if casino.allow_late_surrender %}checked{% endif %}>
+        </div>
+        <div>
+            <label for="allow_early_surrender">Allow Early Surrender:</label>
+            <input type="checkbox" id="allow_early_surrender" name="allow_early_surrender" {% if casino.allow_early_surrender %}checked{% endif %}>
+        </div>
+        <div>
+            <label for="allow_resplit_to_hands">Allow Resplit to Hands:</label>
+            <input type="number" id="allow_resplit_to_hands" name="allow_resplit_to_hands" value="{{ casino.allow_resplit_to_hands }}" required>
+        </div>
+        <div>
+            <label for="allow_double_after_split">Allow Double After Split:</label>
+            <input type="checkbox" id="allow_double_after_split" name="allow_double_after_split" {% if casino.allow_double_after_split %}checked{% endif %}>
+        </div>
+        <div>
+            <label for="allow_double_on_any_two">Allow Double on Any Two:</label>
+            <input type="checkbox" id="allow_double_on_any_two" name="allow_double_on_any_two" {% if casino.allow_double_on_any_two %}checked{% endif %}>
+        </div>
+        <div>
+            <label for="reshuffle_penetration">Reshuffle Penetration (%):</label>
+            <input type="number" step="0.1" id="reshuffle_penetration" name="reshuffle_penetration" value="{{ casino.reshuffle_penetration }}" required>
+        </div>
+        <div>
+            <label for="offer_insurance">Offer Insurance:</label>
+            <input type="checkbox" id="offer_insurance" name="offer_insurance" {% if casino.offer_insurance %}checked{% endif %}>
+        </div>
+        <div>
+            <label for="dealer_checks_for_blackjack">Dealer Checks for Blackjack:</label>
+            <input type="checkbox" id="dealer_checks_for_blackjack" name="dealer_checks_for_blackjack" {% if casino.dealer_checks_for_blackjack %}checked{% endif %}>
+        </div>
+        
+        <button type="submit">Save Changes</button>
+    </form>
+{% endblock %}

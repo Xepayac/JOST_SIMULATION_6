@@ -1,0 +1,10 @@
+{
+    "name": "Flat Bet",
+    "min_bet": 10,
+    "bet_ramp": [
+        {
+            "count_threshold": -100,
+            "bet_multiplier": 1
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Choose a Playing Strategy</h1>
+
+    <div class="strategy-list">
+        <h2>Available Strategies</h2>
+        {% for strategy in strategies %}
+            <div class="strategy-item">
+                <div>
+                    <strong>{{ strategy }}</strong>
+                </div>
+                <div>
+                    <form action="{{ url_for('strategies', simulation_id=simulation.id) }}" method="post" style="display: inline;">
+                        <input type="hidden" name="strategy" value="{{ strategy }}">
+                        <button type="submit" class="button">Choose</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
