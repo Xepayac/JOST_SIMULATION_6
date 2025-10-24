@@ -170,6 +170,14 @@ def result_page(result_id):
     outcomes = json.loads(result.outcomes)
     return render_template('result_details.html', result=result, outcomes=outcomes)
 
+@app.route('/delete_result/<int:result_id>', methods=['POST'])
+def delete_result(result_id):
+    result = Result.query.get_or_404(result_id)
+    db.session.delete(result)
+    db.session.commit()
+    flash('Result deleted successfully!', 'success')
+    return redirect(url_for('results_list'))
+
 @app.route('/delete_simulation/<int:simulation_id>', methods=['POST'])
 def delete_simulation(simulation_id):
     simulation = Simulation.query.get_or_404(simulation_id)
