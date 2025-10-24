@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Saved Simulations</h1>
+
+    <div>
+        <span>Sort by:</span>
+        <a href="{{ url_for('simulations', sort_by='timestamp', order='desc') }}">Newest First</a> |
+        <a href="{{ url_for('simulations', sort_by='timestamp', order='asc') }}">Oldest First</a> |
+        <a href="{{ url_for('simulations', sort_by='name', order='asc') }}">Name (A-Z)</a> |
+        <a href="{{ url_for('simulations', sort_by='name', order='desc') }}">Name (Z-A)</a>
+    </div>
+
+    <ul>
+        {% for simulation in simulations %}
+            <li>
+                <a href="{{ url_for('edit_simulation', simulation_id=simulation.id) }}">
+                    {{ simulation.title }} - <small>{{ simulation.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                </a>
+                <div style="float: right;">
+                    <a href="{{ url_for('edit_simulation', simulation_id=simulation.id) }}" class="edit-button">Edit</a>
+                    <form action="{{ url_for('delete_simulation', simulation_id=simulation.id) }}" method="post" style="display: inline;">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

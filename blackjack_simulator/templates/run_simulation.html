@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Run Simulation: {{ simulation.title }}</h1>
+
+    <div>
+        <h2>Simulation Details</h2>
+        <p><strong>Title:</strong> {{ simulation.title }}</p>
+        {% if simulation.player %}
+            <p><strong>Player:</strong> {{ simulation.player.name }}</p>
+            <p><strong>Bankroll:</strong> {{ simulation.player.bankroll }}</p>
+        {% else %}
+            <p><strong>Player:</strong> No player selected</p>
+        {% endif %}
+    </div>
+
+    <form method="post" action="{{ url_for('run_simulation_action', simulation_id=simulation.id) }}">
+        <div>
+            <label for="iterations">Number of Iterations:</label>
+            <input type="number" name="iterations" id="iterations" value="{{ simulation.iterations or 100 }}">
+        </div>
+        <div>
+            <label for="notes">Notes:</label>
+            <textarea name="notes" id="notes" placeholder="Add a note for this run...">{{ simulation.notes }}</textarea>
+        </div>
+        <button type="submit" name="action" value="run">Run Simulation</button>
+    </form>
+
+    <div style="margin-top: 1rem;">
+        <a href="{{ url_for('edit_simulation', simulation_id=simulation.id) }}" class="button">Edit Simulation</a>
+    </div>
+{% endblock %}

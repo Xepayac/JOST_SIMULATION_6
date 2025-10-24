@@ -1,0 +1,28 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}All Notes{% endblock %}
+
+{% block content %}
+  <h1>All Notes</h1>
+  <ul id="notes-list"></ul>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    fetch('/api/notes')
+      .then(response => response.json())
+      .then(data => {
+        const notesList = document.getElementById('notes-list');
+        data.forEach(note => {
+          const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = `/notes/${note.id}`;
+          link.textContent = `Note from ${new Date(note.timestamp).toLocaleString()}`;
+          listItem.appendChild(link);
+          notesList.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+{% endblock %}

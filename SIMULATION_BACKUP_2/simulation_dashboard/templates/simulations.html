@@ -1,0 +1,28 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}Saved Simulations{% endblock %}
+
+{% block content %}
+  <h1>Saved Simulations</h1>
+  <ul id="simulations-list"></ul>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    fetch('/api/simulations')
+      .then(response => response.json())
+      .then(simulations => {
+        const list = document.getElementById('simulations-list');
+        simulations.forEach(sim => {
+          const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = `/simulations/${sim.id}`;
+          link.textContent = `${sim.name} - ${new Date(sim.timestamp).toLocaleString()}`;
+          listItem.appendChild(link);
+          list.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error fetching simulations:', error));
+  </script>
+{% endblock %}

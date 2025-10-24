@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>New Simulation</h1>
+
+    <form action="{{ url_for('new_simulation') }}" method="post">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <br>
+        <button type="submit">Prepare to Run Simulation</button>
+    </form>
+{% endblock %}

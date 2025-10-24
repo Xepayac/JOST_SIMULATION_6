@@ -1,0 +1,116 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}Player Setup{% endblock %}
+
+{% block content %}
+  <h1>Player Setup</h1>
+
+  <div class="setup-options">
+    <button id="default-player">Use Default Player</button>
+    <button id="saved-player">Load Saved Player</button>
+    <button id="new-player">Create New Player</button>
+  </div>
+
+  <div id="player-details"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const newPlayerButton = document.getElementById('new-player');
+    const savedPlayerButton = document.getElementById('saved-player');
+    const defaultPlayerButton = document.getElementById('default-player');
+    const playerDetailsDiv = document.getElementById('player-details');
+
+    newPlayerButton.addEventListener('click', () => {
+        showCreatePlayerForm();
+    });
+
+    savedPlayerButton.addEventListener('click', () => {
+        loadSavedPlayers();
+    });
+
+    defaultPlayerButton.addEventListener('click', () => {
+        useDefaultPlayer();
+    });
+
+    function showCreatePlayerForm() {
+        playerDetailsDiv.innerHTML = `
+            <h3>Create New Player</h3>
+            <div class="form-group">
+                <label for="player-name">Name</label>
+                <input type="text" id="player-name" required>
+            </div>
+            <div class="form-group">
+                <label for="player-bankroll">Bankroll</label>
+                <input type="number" id="player-bankroll" required>
+            </div>
+            <button id="save-player">Save Player</button>
+        `;
+        document.getElementById('save-player').addEventListener('click', saveNewPlayer);
+    }
+
+    function saveNewPlayer() {
+        const name = document.getElementById('player-name').value;
+        const bankroll = document.getElementById('player-bankroll').value;
+        if (name && bankroll) {
+            fetch('/api/players', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, bankroll }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    alert('Player saved successfully!');
+                    playerDetailsDiv.innerHTML = '';
+                } else {
+                    alert('Error saving player.');
+                }
+            });
+        }
+    }
+
+    function loadSavedPlayers() {
+        fetch('/api/players')
+        .then(response => response.json())
+        .then(players => {
+            if (players.length > 0) {
+                let playerOptions = players.map(p => 
+                    `<div class="player-option" data-player-id="${p.id}">${p.name} - Bankroll: ${p.bankroll}</div>`
+                ).join('');
+                playerDetailsDiv.innerHTML = `
+                    <h3>Select a Player</h3>
+                    ${playerOptions}
+                `;
+                document.querySelectorAll('.player-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const playerId = e.target.dataset.playerId;
+                        fetch(`/api/players/${playerId}`)
+                        .then(response => response.json())
+                        .then(player => {
+                            localStorage.setItem('selectedPlayer', JSON.stringify(player));
+                            alert(`Player ${player.name} selected.`);
+                            window.location.href = "/{{ url_for('index') }}";
+                        });
+                    });
+                });
+            } else {
+                playerDetailsDiv.innerHTML = '<p>No saved players found.</p>';
+            }
+        });
+    }
+
+    function useDefaultPlayer() {
+        const defaultPlayer = { id: 0, name: 'Default Player', bankroll: 10000 };
+        localStorage.setItem('selectedPlayer', JSON.stringify(defaultPlayer));
+        alert('Default player selected.');
+        window.location.href = "/{{ url_for('index') }}";
+    }
+});
+</script>
+{% endblock %}

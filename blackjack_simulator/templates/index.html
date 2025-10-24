@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    {% if simulation %}
+        <h1>Run Simulation: {{ simulation.title }}</h1>
+
+        <form action="{{ url_for('simulation', simulation_id=simulation.id) }}" method="post" id="run-simulation-form">
+            <input type="hidden" name="title" value="{{ simulation.title }}">
+
+            <div style="display: flex; align-items: center; margin-bottom: 1rem; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">
+                <div id="player-info" style="flex-grow: 1;">
+                    {% if player %}
+                        <div><strong>Player:</strong> {{ player.name }}</div>
+                        <div><strong>Bankroll:</strong> {{ player.bankroll }}</div>
+                    {% else %}
+                        <div style="color: red;">No player selected. Please choose a player.</div>
+                    {% endif %}
+                </div>
+                <input type="hidden" name="player_id" id="player_id" value="{{ player.id if player else '' }}">
+                <a href="{{ url_for('players', simulation_id=simulation.id) }}" class="button">
+                    {% if player %}Change Player{% else %}Choose Player{% endif %}
+                </a>
+            </div>
+
+            <label for="notes">Notes:</label><br>
+            <textarea id="notes" name="notes" rows="4" style="width: 100%; margin-bottom: 1rem;">{{ simulation.notes if simulation else '' }}</textarea><br>
+
+            <div style="display: flex; justify-content: space-between;">
+                <button type="submit" name="action" value="save">Save</button>
+                <button type="submit" name="action" value="run">Run Simulation</button>
+            </div>
+
+        </form>
+
+    {% else %}
+        <h1>Welcome</h1>
+        <p>You can create a new simulation by clicking the button below, or view existing ones.</p>
+        <a href="{{ url_for('new_simulation') }}" class="button">Create New Simulation</a>
+        <a href="{{ url_for('simulations') }}" class="button">View Saved Simulations</a>
+    {% endif %}
+{% endblock %}

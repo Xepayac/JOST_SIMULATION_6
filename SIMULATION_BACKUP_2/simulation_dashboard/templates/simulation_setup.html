@@ -1,0 +1,118 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}Simulation Setup{% endblock %}
+
+{% block content %}
+  <h1>Simulation Setup</h1>
+
+  <div class="setup-section">
+    <h2>Player</h2>
+    <div id="player-selection"></div>
+  </div>
+
+  <div class="setup-section">
+    <h2>Playing Strategy</h2>
+    <div id="playing-strategy-selection"></div>
+  </div>
+
+  <div class="setup-section">
+    <h2>Betting Strategy</h2>
+    <div id="betting-strategy-selection"></div>
+  </div>
+
+  <div class="setup-section">
+    <h2>Casino</h2>
+    <div id="casino-selection"></div>
+  </div>
+
+  <button id="start-simulation">Start Simulation</button>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    loadSelectionOptions('players', 'player-selection', 'selectedPlayer');
+    loadSelectionOptions('playing_strategies', 'playing-strategy-selection', 'selectedPlayingStrategy');
+    loadSelectionOptions('betting_strategies', 'betting-strategy-selection', 'selectedBettingStrategy');
+    loadSelectionOptions('casinos', 'casino-selection', 'selectedCasino');
+
+    document.getElementById('start-simulation').addEventListener('click', () => {
+        const selectedPlayer = JSON.parse(localStorage.getItem('selectedPlayer'));
+        const selectedPlayingStrategy = JSON.parse(localStorage.getItem('selectedPlayingStrategy'));
+        const selectedBettingStrategy = JSON.parse(localStorage.getItem('selectedBettingStrategy'));
+        const selectedCasino = JSON.parse(localStorage.getItem('selectedCasino'));
+
+        if (!selectedPlayer || !selectedPlayingStrategy || !selectedBettingStrategy || !selectedCasino) {
+            alert('Please select a player, playing strategy, betting strategy, and casino to start a simulation.');
+            return;
+        }
+
+        const simulationData = {
+            player_id: selectedPlayer.id,
+            playing_strategy_id: selectedPlayingStrategy.id,
+            betting_strategy_id: selectedBettingStrategy.id,
+            casino_id: selectedCasino.id,
+            name: `Sim for ${selectedPlayer.name} at ${selectedCasino.name}`
+        };
+
+        fetch('/api/simulations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(simulationData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.id) {
+                window.location.href = `/simulations/${data.id}`;
+            } else {
+                alert('Error starting simulation.');
+            }
+        });
+    });
+});
+
+function loadSelectionOptions(apiEndpoint, elementId, storageKey) {
+    const selectionDiv = document.getElementById(elementId);
+    let selectedId = null;
+
+    const storedItem = localStorage.getItem(storageKey);
+    if (storedItem) {
+        selectedId = JSON.parse(storedItem).id;
+    }
+
+    fetch(`/api/${apiEndpoint}`)
+        .then(response => response.json())
+        .then(items => {
+            if (items.length > 0) {
+                let options = items.map(item =>
+                    `<div class="option ${item.id === selectedId ? 'selected' : ''}" data-id="${item.id}" data-endpoint="${apiEndpoint}" data-key="${storageKey}">${item.name}</div>`
+                ).join('');
+                selectionDiv.innerHTML = options;
+
+                document.querySelectorAll(`#${elementId} .option`).forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const id = e.target.dataset.id;
+                        const endpoint = e.target.dataset.endpoint;
+                        const key = e.target.dataset.key;
+
+                        fetch(`/api/${endpoint}/${id}`)
+                            .then(response => response.json())
+                            .then(item => {
+                                localStorage.setItem(key, JSON.stringify(item));
+                                alert(`${item.name} selected.`);
+                                document.querySelectorAll(`#${elementId} .option`).forEach(opt => opt.classList.remove('selected'));
+                                e.target.classList.add('selected');
+                            });
+                    });
+                });
+            } else {
+                selectionDiv.innerHTML = `<p>No items found. Please create one first.</p>`;
+            }
+        });
+}
+</script>
+{% endblock %}

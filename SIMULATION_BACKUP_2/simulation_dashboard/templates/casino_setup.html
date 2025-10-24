@@ -1,0 +1,138 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}Casino Setup{% endblock %}
+
+{% block content %}
+  <h1>Casino Setup</h1>
+
+  <div class="setup-options">
+    <button id="default-casino">Use Default Casino</button>
+    <button id="saved-casino">Load Saved Casino</button>
+    <button id="new-casino">Create New Casino</button>
+  </div>
+
+  <div id="casino-details"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const newCasinoButton = document.getElementById('new-casino');
+    const savedCasinoButton = document.getElementById('saved-casino');
+    const defaultCasinoButton = document.getElementById('default-casino');
+    const casinoDetailsDiv = document.getElementById('casino-details');
+
+    newCasinoButton.addEventListener('click', () => {
+        showCreateCasinoForm();
+    });
+
+    savedCasinoButton.addEventListener('click', () => {
+        loadSavedCasinos();
+    });
+
+    defaultCasinoButton.addEventListener('click', () => {
+        useDefaultCasino();
+    });
+
+    function showCreateCasinoForm() {
+        casinoDetailsDiv.innerHTML = `
+            <h3>Create New Casino</h3>
+            <div class="form-group">
+                <label for="casino-name">Name</label>
+                <input type="text" id="casino-name" required>
+            </div>
+            <div class="form-group">
+                <label for="deck-count">Deck Count</label>
+                <input type="number" id="deck-count" required>
+            </div>
+            <div class="form-group">
+                <label for="dealer-hits-soft-17">Dealer Hits on Soft 17</label>
+                <input type="checkbox" id="dealer-hits-soft-17">
+            </div>
+            <div class="form-group">
+                <label for="double-after-split">Double After Split Allowed</label>
+                <input type="checkbox" id="double-after-split">
+            </div>
+            <button id="save-casino">Save Casino</button>
+        `;
+        document.getElementById('save-casino').addEventListener('click', saveNewCasino);
+    }
+
+    function saveNewCasino() {
+        const name = document.getElementById('casino-name').value;
+        const deck_count = document.getElementById('deck-count').value;
+        const dealer_hits_on_soft_17 = document.getElementById('dealer-hits-soft-17').checked;
+        const double_after_split_allowed = document.getElementById('double-after-split').checked;
+
+        if (name && deck_count) {
+            fetch('/api/casinos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    name, 
+                    deck_count, 
+                    dealer_hits_on_soft_17, 
+                    double_after_split_allowed 
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    alert('Casino saved successfully!');
+                    casinoDetailsDiv.innerHTML = '';
+                } else {
+                    alert('Error saving casino.');
+                }
+            });
+        }
+    }
+
+    function loadSavedCasinos() {
+        fetch('/api/casinos')
+        .then(response => response.json())
+        .then(casinos => {
+            if (casinos.length > 0) {
+                let casinoOptions = casinos.map(c => 
+                    `<div class="casino-option" data-casino-id="${c.id}">${c.name}</div>`
+                ).join('');
+                casinoDetailsDiv.innerHTML = `
+                    <h3>Select a Casino</h3>
+                    ${casinoOptions}
+                `;
+                document.querySelectorAll('.casino-option').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const casinoId = e.target.dataset.casinoId;
+                        fetch(`/api/casinos/${casinoId}`)
+                        .then(response => response.json())
+                        .then(casino => {
+                            localStorage.setItem('selectedCasino', JSON.stringify(casino));
+                            alert(`Casino ${casino.name} selected.`);
+                            window.location.href = "/{{ url_for('index') }}";
+                        });
+                    });
+                });
+            } else {
+                casinoDetailsDiv.innerHTML = '<p>No saved casinos found.</p>';
+            }
+        });
+    }
+
+    function useDefaultCasino() {
+        const defaultCasino = { 
+            id: 0, 
+            name: 'Default Casino', 
+            deck_count: 6, 
+            dealer_hits_on_soft_17: true, 
+            double_after_split_allowed: true 
+        };
+        localStorage.setItem('selectedCasino', JSON.stringify(defaultCasino));
+        alert('Default casino selected.');
+        window.location.href = "/{{ url_for('index') }}";
+    }
+});
+</script>
+{% endblock %}

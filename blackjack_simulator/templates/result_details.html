@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Results for {{ result.simulation.title }}</h1>
+    <p><small>Run on: {{ result.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small></p>
+    
+    <h2>Configuration</h2>
+    <p><strong>Player:</strong> {{ result.player_name }}</p>
+    <p><strong>Starting Bankroll:</strong> {{ result.starting_bankroll }}</p>
+    <p><strong>Iterations:</strong> {{ result.iterations }}</p>
+    {% if result.notes %}
+    <p><strong>Notes:</strong></p>
+    <pre>{{ result.notes }}</pre>
+    {% endif %}
+
+    <h2>Rounds</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>Player Hand</th>
+                <th>Dealer Hand</th>
+                <th>Outcome</th>
+                <th>Payout</th>
+                <th>Player Bankroll</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for outcome in outcomes %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ outcome.player_cards|join(', ') }}</td>
+                    <td>{{ outcome.dealer_cards|join(', ') }}</td>
+                    <td>{{ outcome.outcome }}</td>
+                    <td>{{ outcome.payout }}</td>
+                    <td>{{ outcome.player_bankroll }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('results_list') }}" class="button">Back to Results List</a>
+{% endblock %}

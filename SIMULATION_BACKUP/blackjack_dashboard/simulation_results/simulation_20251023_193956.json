@@ -1,0 +1,1603 @@
+{
+    "total_hands_played": 100,
+    "simulation_duration_seconds": 0.03863191604614258,
+    "players": {
+        "Stan (Basic Strategy)": {
+            "Final Bankroll": 10065.0,
+            "Net Gain/Loss": 65.0,
+            "Hands Played": 100,
+            "Average Bet": 10.7,
+            "House Edge (%)": -6.074766355140187
+        }
+    },
+    "hand_history": [
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Hearts",
+                "7 of Spades",
+                "K of Clubs"
+            ],
+            "dealer_cards": [
+                "6 of Hearts",
+                "2 of Hearts",
+                "6 of Spades",
+                "A of Spades",
+                "K of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 40,
+            "player_bankroll": 9980
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Clubs",
+                "8 of Hearts"
+            ],
+            "dealer_cards": [
+                "6 of Hearts",
+                "5 of Clubs",
+                "7 of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10010
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "9 of Spades",
+                "7 of Clubs",
+                "5 of Clubs"
+            ],
+            "dealer_cards": [
+                "A of Spades",
+                "A of Diamonds",
+                "4 of Clubs",
+                "8 of Diamonds",
+                "2 of Diamonds",
+                "7 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10000
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Hearts",
+                "3 of Diamonds"
+            ],
+            "dealer_cards": [
+                "J of Hearts",
+                "A of Spades"
+            ],
+            "outcome": "Dealer Blackjack",
+            "payout": 0,
+            "player_bankroll": 10010
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Spades",
+                "Q of Diamonds",
+                "4 of Diamonds"
+            ],
+            "dealer_cards": [
+                "8 of Diamonds",
+                "9 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10000
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Spades",
+                "J of Diamonds"
+            ],
+            "dealer_cards": [
+                "6 of Clubs",
+                "4 of Diamonds",
+                "8 of Spades"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Diamonds",
+                "3 of Diamonds",
+                "5 of Diamonds"
+            ],
+            "dealer_cards": [
+                "7 of Spades",
+                "7 of Spades",
+                "5 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10020
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "2 of Hearts",
+                "10 of Spades"
+            ],
+            "dealer_cards": [
+                "4 of Diamonds",
+                "7 of Clubs",
+                "7 of Spades"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10010
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Diamonds",
+                "8 of Clubs",
+                "J of Hearts"
+            ],
+            "dealer_cards": [
+                "A of Diamonds",
+                "A of Hearts",
+                "K of Hearts",
+                "2 of Diamonds",
+                "6 of Diamonds"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10000
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Diamonds",
+                "9 of Diamonds"
+            ],
+            "dealer_cards": [
+                "2 of Diamonds",
+                "7 of Hearts",
+                "6 of Clubs",
+                "J of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9990
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Hearts",
+                "8 of Spades"
+            ],
+            "dealer_cards": [
+                "A of Spades",
+                "Q of Hearts"
+            ],
+            "outcome": "Dealer Blackjack",
+            "payout": 0,
+            "player_bankroll": 10000
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Hearts",
+                "4 of Spades",
+                "8 of Hearts",
+                "J of Spades"
+            ],
+            "dealer_cards": [
+                "8 of Spades",
+                "10 of Spades"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 9990
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Clubs",
+                "10 of Hearts"
+            ],
+            "dealer_cards": [
+                "J of Clubs",
+                "6 of Hearts",
+                "2 of Diamonds"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9980
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Spades",
+                "5 of Clubs",
+                "10 of Clubs"
+            ],
+            "dealer_cards": [
+                "7 of Diamonds",
+                "6 of Hearts",
+                "7 of Diamonds"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 9970
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Spades",
+                "2 of Spades",
+                "3 of Clubs",
+                "9 of Clubs"
+            ],
+            "dealer_cards": [
+                "J of Spades",
+                "J of Hearts"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "9 of Clubs",
+                "4 of Hearts",
+                "5 of Hearts"
+            ],
+            "dealer_cards": [
+                "8 of Clubs",
+                "J of Hearts"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Clubs",
+                "2 of Spades",
+                "6 of Clubs"
+            ],
+            "dealer_cards": [
+                "8 of Spades",
+                "6 of Diamonds",
+                "3 of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "9 of Clubs",
+                "8 of Clubs"
+            ],
+            "dealer_cards": [
+                "K of Hearts",
+                "Q of Spades"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9970
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "2 of Clubs",
+                "3 of Diamonds",
+                "Q of Diamonds"
+            ],
+            "dealer_cards": [
+                "4 of Diamonds",
+                "4 of Spades",
+                "7 of Diamonds",
+                "8 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "2 of Hearts",
+                "10 of Diamonds"
+            ],
+            "dealer_cards": [
+                "5 of Clubs",
+                "Q of Spades",
+                "5 of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9970
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Spades",
+                "7 of Clubs"
+            ],
+            "dealer_cards": [
+                "Q of Clubs",
+                "A of Spades"
+            ],
+            "outcome": "Dealer Blackjack",
+            "payout": 0,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Hearts",
+                "J of Spades"
+            ],
+            "dealer_cards": [
+                "4 of Diamonds",
+                "K of Hearts",
+                "8 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9950
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Hearts",
+                "4 of Hearts",
+                "3 of Clubs"
+            ],
+            "dealer_cards": [
+                "J of Diamonds",
+                "J of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Diamonds",
+                "7 of Hearts"
+            ],
+            "dealer_cards": [
+                "3 of Spades",
+                "A of Clubs",
+                "9 of Diamonds",
+                "4 of Spades"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 9950
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "9 of Spades",
+                "A of Spades"
+            ],
+            "dealer_cards": [
+                "K of Hearts",
+                "Q of Hearts"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 9950
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Clubs",
+                "8 of Hearts"
+            ],
+            "dealer_cards": [
+                "4 of Diamonds",
+                "K of Spades",
+                "J of Spades"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9950
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Hearts",
+                "Q of Hearts"
+            ],
+            "dealer_cards": [
+                "5 of Clubs",
+                "Q of Diamonds",
+                "J of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Clubs",
+                "3 of Clubs",
+                "2 of Spades",
+                "9 of Hearts"
+            ],
+            "dealer_cards": [
+                "10 of Diamonds",
+                "3 of Clubs",
+                "J of Diamonds"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 9970
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Spades",
+                "8 of Spades"
+            ],
+            "dealer_cards": [
+                "5 of Spades",
+                "10 of Diamonds",
+                "9 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Diamonds",
+                "2 of Clubs",
+                "10 of Diamonds"
+            ],
+            "dealer_cards": [
+                "7 of Spades",
+                "9 of Clubs",
+                "A of Hearts"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 9970
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Clubs",
+                "5 of Spades"
+            ],
+            "dealer_cards": [
+                "5 of Diamonds",
+                "8 of Hearts",
+                "5 of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Spades",
+                "7 of Diamonds"
+            ],
+            "dealer_cards": [
+                "4 of Clubs",
+                "Q of Clubs",
+                "9 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9950
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Spades",
+                "9 of Hearts"
+            ],
+            "dealer_cards": [
+                "A of Clubs",
+                "K of Hearts"
+            ],
+            "outcome": "Dealer Blackjack",
+            "payout": 0,
+            "player_bankroll": 9960
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Diamonds",
+                "J of Clubs"
+            ],
+            "dealer_cards": [
+                "9 of Spades",
+                "10 of Clubs"
+            ],
+            "outcome": "Player Blackjack",
+            "payout": 25.0,
+            "player_bankroll": 9950
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Hearts",
+                "3 of Hearts"
+            ],
+            "dealer_cards": [
+                "3 of Diamonds",
+                "4 of Clubs",
+                "2 of Spades",
+                "2 of Diamonds",
+                "5 of Diamonds",
+                "5 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9965.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Clubs",
+                "10 of Spades",
+                "6 of Diamonds"
+            ],
+            "dealer_cards": [
+                "K of Diamonds",
+                "8 of Spades"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9955.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Hearts",
+                "5 of Clubs",
+                "Q of Clubs"
+            ],
+            "dealer_cards": [
+                "J of Hearts",
+                "9 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9965.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Clubs",
+                "2 of Clubs",
+                "4 of Hearts"
+            ],
+            "dealer_cards": [
+                "2 of Hearts",
+                "A of Hearts",
+                "2 of Spades",
+                "K of Spades",
+                "Q of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9955.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Hearts",
+                "7 of Hearts",
+                "6 of Hearts"
+            ],
+            "dealer_cards": [
+                "6 of Clubs",
+                "Q of Hearts",
+                "3 of Spades"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 9955.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Clubs",
+                "Q of Clubs"
+            ],
+            "dealer_cards": [
+                "8 of Spades",
+                "4 of Clubs",
+                "A of Spades",
+                "J of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9945.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Spades",
+                "J of Clubs"
+            ],
+            "dealer_cards": [
+                "9 of Clubs",
+                "10 of Clubs"
+            ],
+            "outcome": "Player Blackjack",
+            "payout": 25.0,
+            "player_bankroll": 9955.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Hearts",
+                "A of Diamonds"
+            ],
+            "dealer_cards": [
+                "8 of Spades",
+                "K of Hearts"
+            ],
+            "outcome": "Player Blackjack",
+            "payout": 25.0,
+            "player_bankroll": 9970.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Clubs",
+                "7 of Clubs"
+            ],
+            "dealer_cards": [
+                "2 of Hearts",
+                "K of Spades",
+                "A of Hearts",
+                "K of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9985.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Diamonds",
+                "Q of Clubs"
+            ],
+            "dealer_cards": [
+                "4 of Hearts",
+                "J of Hearts",
+                "9 of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9995.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Clubs",
+                "10 of Hearts"
+            ],
+            "dealer_cards": [
+                "9 of Hearts",
+                "6 of Spades",
+                "7 of Spades"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10005.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Diamonds",
+                "9 of Diamonds"
+            ],
+            "dealer_cards": [
+                "3 of Hearts",
+                "10 of Diamonds",
+                "A of Spades",
+                "J of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10015.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Hearts",
+                "7 of Clubs",
+                "9 of Spades"
+            ],
+            "dealer_cards": [
+                "10 of Spades",
+                "7 of Spades"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10025.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Diamonds",
+                "2 of Hearts"
+            ],
+            "dealer_cards": [
+                "6 of Clubs",
+                "5 of Hearts",
+                "3 of Clubs",
+                "J of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10015.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Diamonds",
+                "10 of Clubs"
+            ],
+            "dealer_cards": [
+                "3 of Clubs",
+                "3 of Clubs",
+                "3 of Spades",
+                "4 of Spades",
+                "7 of Diamonds"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10025.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Hearts",
+                "A of Diamonds"
+            ],
+            "dealer_cards": [
+                "Q of Diamonds",
+                "8 of Hearts"
+            ],
+            "outcome": "Player Blackjack",
+            "payout": 25.0,
+            "player_bankroll": 10025.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "8 of Diamonds",
+                "10 of Diamonds"
+            ],
+            "dealer_cards": [
+                "J of Clubs",
+                "8 of Hearts"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10040.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Diamonds",
+                "9 of Diamonds"
+            ],
+            "dealer_cards": [
+                "6 of Hearts",
+                "3 of Spades",
+                "5 of Diamonds",
+                "5 of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10040.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "K of Diamonds",
+                "9 of Clubs"
+            ],
+            "dealer_cards": [
+                "5 of Hearts",
+                "6 of Hearts",
+                "8 of Diamonds"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Spades",
+                "2 of Diamonds"
+            ],
+            "dealer_cards": [
+                "A of Spades",
+                "J of Diamonds"
+            ],
+            "outcome": "Dealer Blackjack",
+            "payout": 0,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Diamonds",
+                "A of Diamonds",
+                "3 of Hearts",
+                "A of Hearts"
+            ],
+            "dealer_cards": [
+                "7 of Diamonds",
+                "10 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Spades",
+                "8 of Spades"
+            ],
+            "dealer_cards": [
+                "5 of Spades",
+                "7 of Spades",
+                "Q of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Clubs",
+                "J of Spades"
+            ],
+            "dealer_cards": [
+                "K of Clubs",
+                "5 of Spades",
+                "3 of Spades"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10040.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Clubs",
+                "6 of Hearts",
+                "4 of Clubs"
+            ],
+            "dealer_cards": [
+                "A of Clubs",
+                "A of Clubs",
+                "7 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Clubs",
+                "2 of Hearts",
+                "J of Hearts",
+                "A of Hearts",
+                "7 of Diamonds"
+            ],
+            "dealer_cards": [
+                "K of Clubs",
+                "J of Hearts"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10040.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Diamonds",
+                "2 of Diamonds",
+                "A of Hearts"
+            ],
+            "dealer_cards": [
+                "10 of Clubs",
+                "5 of Hearts",
+                "5 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Clubs",
+                "8 of Spades",
+                "9 of Diamonds"
+            ],
+            "dealer_cards": [
+                "7 of Hearts",
+                "9 of Hearts",
+                "A of Clubs"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Spades",
+                "2 of Clubs"
+            ],
+            "dealer_cards": [
+                "4 of Clubs",
+                "3 of Hearts",
+                "5 of Spades",
+                "K of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Diamonds",
+                "3 of Diamonds"
+            ],
+            "dealer_cards": [
+                "4 of Clubs",
+                "J of Clubs",
+                "10 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Spades",
+                "4 of Spades"
+            ],
+            "dealer_cards": [
+                "4 of Clubs",
+                "J of Clubs",
+                "10 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Diamonds",
+                "7 of Spades",
+                "9 of Hearts"
+            ],
+            "dealer_cards": [
+                "7 of Hearts",
+                "3 of Clubs",
+                "10 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10030.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Clubs",
+                "9 of Spades"
+            ],
+            "dealer_cards": [
+                "2 of Spades",
+                "6 of Clubs",
+                "K of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Clubs",
+                "7 of Spades",
+                "K of Diamonds"
+            ],
+            "dealer_cards": [
+                "Q of Hearts",
+                "Q of Spades"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Diamonds",
+                "J of Clubs"
+            ],
+            "dealer_cards": [
+                "5 of Hearts",
+                "6 of Hearts",
+                "10 of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "J of Spades",
+                "9 of Spades"
+            ],
+            "dealer_cards": [
+                "J of Diamonds",
+                "4 of Diamonds",
+                "A of Hearts",
+                "Q of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10000.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Spades",
+                "6 of Clubs",
+                "K of Spades"
+            ],
+            "dealer_cards": [
+                "K of Clubs",
+                "4 of Hearts",
+                "5 of Hearts"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Spades",
+                "2 of Spades",
+                "9 of Spades",
+                "7 of Diamonds"
+            ],
+            "dealer_cards": [
+                "Q of Hearts",
+                "6 of Spades",
+                "2 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Hearts",
+                "9 of Clubs"
+            ],
+            "dealer_cards": [
+                "10 of Hearts",
+                "10 of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Hearts",
+                "5 of Spades",
+                "9 of Hearts"
+            ],
+            "dealer_cards": [
+                "3 of Clubs",
+                "Q of Clubs",
+                "J of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "2 of Diamonds",
+                "10 of Spades",
+                "5 of Diamonds"
+            ],
+            "dealer_cards": [
+                "J of Clubs",
+                "K of Hearts"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Spades",
+                "4 of Diamonds",
+                "3 of Hearts",
+                "10 of Hearts"
+            ],
+            "dealer_cards": [
+                "J of Spades",
+                "5 of Clubs",
+                "2 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Diamonds",
+                "10 of Spades",
+                "10 of Clubs"
+            ],
+            "dealer_cards": [
+                "A of Diamonds",
+                "9 of Clubs"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "2 of Diamonds",
+                "5 of Spades",
+                "6 of Hearts",
+                "7 of Diamonds"
+            ],
+            "dealer_cards": [
+                "9 of Spades",
+                "10 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Spades",
+                "2 of Spades",
+                "9 of Clubs"
+            ],
+            "dealer_cards": [
+                "2 of Spades",
+                "8 of Diamonds",
+                "7 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "8 of Clubs",
+                "10 of Diamonds"
+            ],
+            "dealer_cards": [
+                "9 of Hearts",
+                "3 of Clubs",
+                "4 of Hearts",
+                "6 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Hearts",
+                "4 of Hearts",
+                "9 of Spades"
+            ],
+            "dealer_cards": [
+                "J of Diamonds",
+                "K of Diamonds"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Spades",
+                "8 of Diamonds"
+            ],
+            "dealer_cards": [
+                "6 of Clubs",
+                "5 of Hearts",
+                "2 of Clubs",
+                "K of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "5 of Diamonds",
+                "5 of Diamonds",
+                "3 of Clubs",
+                "A of Clubs",
+                "Q of Diamonds"
+            ],
+            "dealer_cards": [
+                "K of Diamonds",
+                "5 of Spades",
+                "5 of Diamonds"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Hearts",
+                "K of Diamonds"
+            ],
+            "dealer_cards": [
+                "3 of Spades",
+                "K of Spades",
+                "A of Clubs",
+                "K of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Clubs",
+                "10 of Diamonds",
+                "6 of Hearts"
+            ],
+            "dealer_cards": [
+                "K of Clubs",
+                "7 of Spades"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Diamonds",
+                "J of Hearts",
+                "3 of Spades"
+            ],
+            "dealer_cards": [
+                "10 of Clubs",
+                "3 of Spades",
+                "9 of Spades"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "4 of Diamonds",
+                "Q of Clubs"
+            ],
+            "dealer_cards": [
+                "5 of Spades",
+                "3 of Clubs",
+                "A of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "2 of Hearts",
+                "J of Hearts",
+                "5 of Clubs"
+            ],
+            "dealer_cards": [
+                "7 of Clubs",
+                "J of Diamonds"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "8 of Diamonds",
+                "3 of Diamonds",
+                "5 of Clubs"
+            ],
+            "dealer_cards": [
+                "10 of Hearts",
+                "10 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10000.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Spades",
+                "J of Hearts",
+                "6 of Spades"
+            ],
+            "dealer_cards": [
+                "7 of Spades",
+                "7 of Spades",
+                "K of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 9990.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "3 of Clubs",
+                "3 of Hearts",
+                "6 of Diamonds",
+                "A of Spades",
+                "4 of Diamonds"
+            ],
+            "dealer_cards": [
+                "9 of Diamonds",
+                "J of Spades"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10000.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "8 of Spades",
+                "3 of Hearts",
+                "5 of Hearts"
+            ],
+            "dealer_cards": [
+                "4 of Diamonds",
+                "K of Clubs",
+                "Q of Spades"
+            ],
+            "outcome": "Player Wins",
+            "payout": 40,
+            "player_bankroll": 9980.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Hearts",
+                "Q of Diamonds"
+            ],
+            "dealer_cards": [
+                "6 of Spades",
+                "5 of Hearts",
+                "2 of Spades",
+                "9 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10010.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Diamonds",
+                "A of Diamonds"
+            ],
+            "dealer_cards": [
+                "Q of Diamonds",
+                "3 of Diamonds",
+                "2 of Diamonds",
+                "3 of Spades"
+            ],
+            "outcome": "Player Blackjack",
+            "payout": 25.0,
+            "player_bankroll": 10020.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "A of Spades",
+                "8 of Clubs"
+            ],
+            "dealer_cards": [
+                "7 of Spades",
+                "7 of Hearts",
+                "10 of Diamonds"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10035.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Clubs",
+                "7 of Spades"
+            ],
+            "dealer_cards": [
+                "9 of Diamonds",
+                "4 of Hearts",
+                "4 of Spades"
+            ],
+            "outcome": "Push",
+            "payout": 10,
+            "player_bankroll": 10045.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "10 of Diamonds",
+                "2 of Hearts",
+                "7 of Clubs"
+            ],
+            "dealer_cards": [
+                "J of Diamonds",
+                "3 of Clubs",
+                "J of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10045.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "7 of Clubs",
+                "K of Spades"
+            ],
+            "dealer_cards": [
+                "8 of Hearts",
+                "5 of Spades",
+                "9 of Hearts"
+            ],
+            "outcome": "Player Wins",
+            "payout": 20,
+            "player_bankroll": 10055.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "Q of Hearts",
+                "3 of Hearts",
+                "2 of Hearts",
+                "4 of Hearts"
+            ],
+            "dealer_cards": [
+                "Q of Spades",
+                "6 of Spades",
+                "4 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10065.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "8 of Spades",
+                "7 of Clubs",
+                "4 of Spades"
+            ],
+            "dealer_cards": [
+                "A of Hearts",
+                "3 of Clubs",
+                "6 of Clubs"
+            ],
+            "outcome": "Dealer Wins",
+            "payout": 0,
+            "player_bankroll": 10055.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Spades",
+                "3 of Hearts",
+                "K of Hearts"
+            ],
+            "dealer_cards": [
+                "3 of Hearts",
+                "10 of Clubs",
+                "Q of Clubs"
+            ],
+            "outcome": "Player Wins",
+            "payout": 40,
+            "player_bankroll": 10035.0
+        },
+        {
+            "player_id": 1,
+            "player_cards": [
+                "6 of Hearts",
+                "2 of Hearts",
+                "4 of Spades",
+                "Q of Spades"
+            ],
+            "dealer_cards": [
+                "9 of Clubs",
+                "A of Spades"
+            ],
+            "outcome": "Bust",
+            "payout": 0,
+            "player_bankroll": 10065.0
+        }
+    ],
+    "casino_rules": {
+        "name": "Default Casino",
+        "deck_count": 6,
+        "dealer_stands_on_soft_17": true,
+        "blackjack_payout": 1.5,
+        "allow_late_surrender": true,
+        "allow_early_surrender": false,
+        "allow_resplit_to_hands": 4,
+        "allow_double_after_split": true,
+        "allow_double_on_any_two": true,
+        "reshuffle_penetration": 75,
+        "offer_insurance": true,
+        "dealer_checks_for_blackjack": true
+    }
+}

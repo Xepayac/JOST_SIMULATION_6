@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Strategy Studio - Blackjack Simulator
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Strategy Studio</h1>
+    <p class="lead">Design, create, and manage your custom playing and betting strategies.</p>
+    <hr>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs" id="strategyTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="playing-strategy-tab" data-bs-toggle="tab" data-bs-target="#playing-strategy" type="button" role="tab" aria-controls="playing-strategy" aria-selected="true">Playing Strategy</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="betting-strategy-tab" data-bs-toggle="tab" data-bs-target="#betting-strategy" type="button" role="tab" aria-controls="betting-strategy" aria-selected="false">Betting Strategy</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="strategyTabContent">
+        <!-- Playing Strategy Builder -->
+        <div class="tab-pane fade show active" id="playing-strategy" role="tabpanel" aria-labelledby="playing-strategy-tab">
+            
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h2 class="card-title">Strategy Library</h2>
+                    <p class="card-text">Load an existing strategy from your library to view, edit, or delete it.</p>
+                    <div id="library-feedback" class="mt-2"></div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="strategy-library-select" class="col-form-label">Select Strategy:</label>
+                        </div>
+                        <div class="col-auto">
+                            <select id="strategy-library-select" class="form-select">
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button id="load-strategy-btn" class="btn btn-secondary">Load</button>
+                        </div>
+                        <div class="col-auto">
+                             <button id="delete-strategy-btn" class="btn btn-danger">Delete Selected Custom Strategy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-4">Playing Strategy Builder</h2>
+            <p>Define the optimal move for every possible hand combination. After loading or modifying a strategy, save it with a new name.</p>
+            <div id="playing-strategy-builder" class="mt-3">
+                <!-- The playing strategy grid will be dynamically generated here by JavaScript -->
+            </div>
+            <div class="mt-3">
+                <label for="playing-strategy-name" class="form-label">Strategy Name:</label>
+                <input type="text" id="playing-strategy-name" class="form-control" placeholder="Enter a unique name for this new strategy...">
+                <button id="save-playing-strategy" class="btn btn-primary mt-2">Save as New Playing Strategy</button>
+                 <div id="save-feedback" class="mt-2"></div>
+            </div>
+        </div>
+
+        <!-- Betting Strategy Builder -->
+        <div class="tab-pane fade" id="betting-strategy" role="tabpanel" aria-labelledby="betting-strategy-tab">
+            <h2 class="mt-3">Betting Strategy Builder</h2>
+            <p>Define how the player should bet based on the true count.</p>
+            <div id="betting-strategy-builder">
+                <!-- The betting strategy form will be dynamically generated here by JavaScript -->
+            </div>
+             <div class="mt-3">
+                <label for="betting-strategy-name" class="form-label">Strategy Name:</label>
+                <input type="text" id="betting-strategy-name" class="form-control" placeholder="Enter a unique name for this strategy...">
+                <button id="save-betting-strategy" class="btn btn-primary mt-2">Save Betting Strategy</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

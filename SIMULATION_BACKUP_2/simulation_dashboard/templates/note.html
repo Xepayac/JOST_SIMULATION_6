@@ -1,0 +1,33 @@
+
+{% extends 'layout.html' %}
+
+{% block title %}View Note{% endblock %}
+
+{% block content %}
+  <div id="note-display"></div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const noteId = {{ note_id }};
+
+    fetch(`/api/notes/${noteId}`)
+      .then(response => response.json())
+      .then(note => {
+        const noteDisplay = document.getElementById('note-display');
+        if (note.status === 'error') {
+            noteDisplay.innerHTML = `<p>Error: ${note.message}</p>`;
+        } else {
+            const noteDate = new Date(note.timestamp).toLocaleString();
+            noteDisplay.innerHTML = `
+                <h2>Note from ${noteDate}</h2>
+                <p>${note.content}</p>
+            `;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('note-display').innerHTML = '<p>An error occurred while fetching the note.</p>';
+      });
+  </script>
+{% endblock %}

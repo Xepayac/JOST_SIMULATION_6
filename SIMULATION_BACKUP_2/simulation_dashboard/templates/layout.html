@@ -1,0 +1,58 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Jost Simulation{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('index') }}">Dashboard</a>
+      <a href="{{ url_for('simulations_page') }}">View Simulations</a>
+      <div class="dropdown">
+        <button class="dropbtn">Setup</button>
+        <div class="dropdown-content">
+          <a href="{{ url_for('player_setup_page') }}">Player</a>
+          <a href="{{ url_for('playing_strategy_setup_page') }}">Playing Strategy</a>
+          <a href="{{ url_for('betting_strategy_setup_page') }}">Betting Strategy</a>
+          <a href="{{ url_for('casino_setup_page') }}">Casino</a>
+          <a href="{{ url_for('simulation_setup_page') }}">Run Simulation</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

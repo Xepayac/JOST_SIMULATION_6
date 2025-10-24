@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Choose a Player</h1>
+
+    <div id="default-player-list">
+        <h2>Default Players</h2>
+        {% for player in players %}
+            {% if player.is_default %}
+                <div class="player-item">
+                    <div>
+                        <strong>{{ player.name }} (default)</strong> (Bankroll: {{ player.bankroll }})
+                    </div>
+                    <div>
+                        <form action="{{ url_for('add_player') }}" method="post" style="display: inline;">
+                            <input type="hidden" name="simulation_id" value="{{ simulation_id }}">
+                            <input type="hidden" name="player_name" value="{{ player.name }}">
+                            <input type="hidden" name="bankroll" value="{{ player.bankroll }}">
+                            <input type="hidden" name="is_default" value="true">
+                            <button type="submit" class="button">Choose</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="player-list">
+        <h2>Your Players</h2>
+        {% for player in players %}
+            {% if not player.is_default %}
+                <div class="player-item">
+                    <div>
+                        <strong>{{ player.name }}</strong> (Bankroll: {{ player.bankroll }})
+                    </div>
+                    <div>
+                        <form action="{{ url_for('add_player') }}" method="post" style="display: inline;">
+                            <input type="hidden" name="simulation_id" value="{{ simulation_id }}">
+                            <input type="hidden" name="player_name" value="{{ player.name }}">
+                            <input type="hidden" name="bankroll" value="{{ player.bankroll }}">
+                            <button type="submit" class="button">Choose</button>
+                        </form>
+                        <a href="{{ url_for('edit_player', player_id=player.id) }}" class="button edit-button">Edit</a>
+                        <form action="{{ url_for('delete_player', player_id=player.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <h2>Or Create a New Player</h2>
+    <form action="{{ url_for('add_player') }}" method="post">
+        <input type="hidden" name="simulation_id" value="{{ simulation_id }}">
+        <label for="player_name">Player Name:</label><br>
+        <input type="text" id="player_name" name="player_name" required><br>
+        <br>
+        <label for="bankroll">Initial Bankroll:</label><br>
+        <input type="number" id="bankroll" name="bankroll" value="1000" required><br>
+        <br>
+        <button type="submit">Create and Choose Player</button>
+    </form>
+
+{% endblock %}
