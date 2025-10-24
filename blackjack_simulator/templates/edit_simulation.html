@@ -8,16 +8,17 @@
             <label for="title">Title:</label>
             <input type="text" name="title" id="title" value="{{ simulation.title }}">
         </div>
+
+        {% if simulation.player %}
+            <p>Player: {{ simulation.player.name }} (Bankroll: {{ simulation.player.bankroll }})
+                <a href="{{ url_for('players', simulation_id=simulation.id) }}" class="button-link">Change Player</a>
+            </p>
+        {% else %}
+            <p>No player selected. Please <a href="{{ url_for('players', simulation_id=simulation.id) }}">choose a player</a>.</p>
+        {% endif %}
+
         <button type="submit" name="action" value="save">Save Changes</button>
     </form>
-
-    {% if simulation.player %}
-        <p>Player: {{ simulation.player.name }} (Bankroll: {{ simulation.player.bankroll }})
-            <a href="{{ url_for('players', simulation_id=simulation.id) }}" class="button-link">Change Player</a>
-        </p>
-    {% else %}
-        <p>No player selected. Please <a href="{{ url_for('players', simulation_id=simulation.id) }}">choose a player</a>.</p>
-    {% endif %}
 
     <div style="margin-top: 1rem;">
         <a href="{{ url_for('run_simulation_page', simulation_id=simulation.id) }}" class="button">Proceed to Run Simulation</a>
