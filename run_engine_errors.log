@@ -1,0 +1,51 @@
+--- Error on 2025-10-23T07:20:30.958283 ---
+Exception traceback:
+Traceback (most recent call last):
+  File "/home/user/jostsimulation6/blackjack_dashboard/run_engine.py", line 68, in run_simulation_from_web
+    game.run_simulation(num_rounds=num_hands, headless=True, progress_callback=progress_callback)
+TypeError: Game.run_simulation() got an unexpected keyword argument 'progress_callback'
+
+--- End of Error ---
+
+--- Error on 2025-10-23T07:21:03.516545 ---
+Exception traceback:
+Traceback (most recent call last):
+  File "/home/user/jostsimulation6/blackjack_dashboard/run_engine.py", line 68, in run_simulation_from_web
+    game.run_simulation(num_rounds=num_hands, headless=True, progress_callback=progress_callback)
+TypeError: Game.run_simulation() got an unexpected keyword argument 'progress_callback'
+
+--- End of Error ---
+
+--- Error on 2025-10-23T07:23:59.133716 ---
+Traceback (most recent call last):
+  File "/home/user/jostsimulation6/blackjack_dashboard/run_engine.py", line 59, in run_simulation_from_web
+    game.run_simulation(num_rounds=num_hands, headless=True, progress_callback=progress_callback)
+TypeError: Game.run_simulation() got an unexpected keyword argument 'progress_callback'
+--- End of Error ---
+
+--- Error on 2025-10-23T18:22:42.650965 ---
+Traceback (most recent call last):
+  File "/home/user/jostsimulation6/JOST_ENGINE_5/src/jost_engine/playing_strategy.py", line 181, in create_playing_strategy
+    return BasicPlayingStrategy(strategy_name=load_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostsimulation6/JOST_ENGINE_5/src/jost_engine/playing_strategy.py", line 22, in __init__
+    self._load_playing_strategy_data(strategy_name)
+  File "/home/user/jostsimulation6/JOST_ENGINE_5/src/jost_engine/playing_strategy.py", line 30, in _load_playing_strategy_data
+    with open(file_path, 'r') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/jostsimulation6/JOST_ENGINE_5/src/jost_engine/data/strategies/s17_basic_strategy_01.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/jostsimulation6/blackjack_dashboard/run_engine.py", line 53, in run_simulation_from_web
+    game = setup_game_from_config(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostsimulation6/JOST_ENGINE_5/src/jost_engine/game_setup.py", line 49, in setup_game_from_config
+    player.playing_strategy = create_playing_strategy(strategy_config, casino_config)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostsimulation6/JOST_ENGINE_5/src/jost_engine/playing_strategy.py", line 184, in create_playing_strategy
+    raise ValueError(f"Playing strategy file not found for: {load_name}")
+ValueError: Playing strategy file not found for: s17_basic_strategy_01
+--- End of Error ---
+
