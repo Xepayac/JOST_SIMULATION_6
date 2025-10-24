@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Betting Strategies</h1>
+
+    <form method="post" action="{{ url_for('betting_strategies_selection', simulation_id=simulation.id) }}">
+        <label for="betting_strategy">Choose a Betting Strategy:</label>
+        <select name="betting_strategy" id="betting_strategy">
+            {% for strategy in betting_strategies %}
+                <option value="{{ strategy.id }}" {% if simulation.betting_strategy_id == strategy.id %}selected{% endif %}>{{ strategy.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Select</button>
+    </form>
+
+    <h2>Available Betting Strategies</h2>
+    <ul>
+        {% for strategy in betting_strategies %}
+            <li>
+                <strong>{{ strategy.name }}</strong>
+                <p>Min Bet: {{ strategy.min_bet }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

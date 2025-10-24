@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Simulator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav class="navbar">
-        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
-        <a href="{{ url_for('new_simulation') }}" class="nav-link">New Simulation</a>
-        <a href="{{ url_for('simulations') }}" class="nav-link">Simulations</a>
-        <a href="{{ url_for('players') }}" class="nav-link">Players</a>
-        <a href="{{ url_for('results_list') }}" class="nav-link">Results</a>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('new_simulation') }}">New Simulation</a>
+        <a href="{{ url_for('simulations') }}">Simulations</a>
+        <a href="{{ url_for('results_list') }}">Results</a>
+        <a href="{{ url_for('players') }}">Players</a>
+        <a href="{{ url_for('casinos') }}">Casinos</a>
+        <a href="{{ url_for('playing_strategies') }}">Playing Strategies</a>
+        <a href="{{ url_for('betting_strategies_list') }}">Betting Strategies</a>
     </nav>
-    <div class="content-container">
+    <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <ul class=flashes>

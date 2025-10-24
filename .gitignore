@@ -1,1 +1,6 @@
-blackjack_simulator/simulations.db
+.venv/
+__pycache__/
+*.log
+instance/
+JOST_ENGINE_5/
+.idx/
