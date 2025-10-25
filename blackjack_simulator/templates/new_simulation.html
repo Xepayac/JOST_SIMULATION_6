@@ -1,12 +1,20 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
+
+{% block title %}
+Create New Simulation
+{% endblock %}
 
 {% block content %}
-    <h1>New Simulation</h1>
+<div class="container">
+    <h1 class="my-4">Create a New Simulation</h1>
 
-    <form action="{{ url_for('new_simulation') }}" method="post">
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" required><br>
-        <br>
-        <button type="submit">Prepare to Run Simulation</button>
+    <form action="{{ url_for('new_simulation') }}" method="POST">
+        <div class="form-group">
+            <label for="title">Simulation Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter a descriptive title" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Simulation</button>
+        <a href="{{ url_for('simulations') }}" class="btn btn-secondary">Cancel</a>
     </form>
+</div>
 {% endblock %}

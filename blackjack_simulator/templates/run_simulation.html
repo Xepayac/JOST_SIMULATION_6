@@ -1,73 +1,86 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
+
+{% block title %}
+Run Simulation: {{ simulation.title }}
+{% endblock %}
 
 {% block content %}
-    <h1>Run Simulation: {{ simulation.title }}</h1>
+<div class="container">
+    <h1 class="my-4">Run Simulation: <small>{{ simulation.title }}</small></h1>
 
-    <form action="{{ url_for('run_simulation_page', simulation_id=simulation.id) }}" method="post">
-        <input type="hidden" name="title" value="{{ simulation.title }}">
+    <form action="{{ url_for('run_simulation_action', simulation_id=simulation.id) }}" method="POST">
+        <div class="row">
+            <!-- Column for Player, Casino, Strategies -->
+            <div class="col-md-6">
+                <!-- Player Selection -->
+                <div class="form-group">
+                    <label for="player_id"><h4><i class="fas fa-user"></i> Player</h4></label>
+                    <select class="form-control" id="player_id" name="player_id">
+                        {% for player in players %}
+                        <option value="{{ player.id }}" {% if simulation.player_id == player.id %}selected{% endif %}>
+                            {{ player.name }} (Bankroll: ${{ player.bankroll }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 1rem; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">
-            <div id="player-info" style="flex-grow: 1;">
-                {% if simulation.player %}
-                    <div><strong>Player:</strong> {{ simulation.player.name }}</div>
-                    <div><strong>Bankroll:</strong> {{ simulation.player.bankroll }}</div>
-                {% else %}
-                    <div style="color: red;">No player selected. Please choose a player.</div>
-                {% endif %}
+                <!-- Casino Selection -->
+                <div class="form-group">
+                    <label for="casino_id"><h4><i class="fas fa-building"></i> Casino</h4></label>
+                    <select class="form-control" id="casino_id" name="casino_id">
+                        {% for casino in casinos %}
+                        <option value="{{ casino.id }}" {% if simulation.casino_id == casino.id %}selected{% endif %}>
+                            {{ casino.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Playing Strategy Selection -->
+                <div class="form-group">
+                    <label for="strategy"><h4><i class="fas fa-brain"></i> Playing Strategy</h4></label>
+                    <select class="form-control" id="strategy" name="strategy">
+                        {% for strategy_file in strategies %}
+                        <option value="{{ strategy_file }}" {% if simulation.strategy == strategy_file %}selected{% endif %}>
+                            {{ strategy_file.replace('.json', '') }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Betting Strategy Selection -->
+                <div class="form-group">
+                    <label for="betting_strategy_id"><h4><i class="fas fa-dollar-sign"></i> Betting Strategy</h4></label>
+                    <select class="form-control" id="betting_strategy_id" name="betting_strategy_id">
+                        {% for bet_strat in betting_strategies %}
+                        <option value="{{ bet_strat.id }}" {% if simulation.betting_strategy_id == bet_strat.id %}selected{% endif %}>
+                            {{ bet_strat.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <a href="{{ url_for('players', simulation_id=simulation.id) }}" class="button">
-                {% if simulation.player %}Change Player{% else %}Choose Player{% endif %}
-            </a>
+
+            <!-- Column for Iterations and Notes -->
+            <div class="col-md-6">
+                <!-- Iterations -->
+                <div class="form-group">
+                    <label for="iterations"><h4><i class="fas fa-redo"></i> Iterations (Hands to Play)</h4></label>
+                    <input type="number" class="form-control" id="iterations" name="iterations" value="{{ simulation.iterations or 1000000 }}" min="1">
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label for="notes"><h4><i class="fas fa-clipboard"></i> Notes</h4></label>
+                    <textarea class="form-control" id="notes" name="notes" rows="8">{{ simulation.notes or '' }}</textarea>
+                </div>
+            </div>
         </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 1rem; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">
-            <div id="casino-info" style="flex-grow: 1;">
-                {% if simulation.casino %}
-                    <div><strong>Casino:</strong> {{ simulation.casino.name }}</div>
-                {% else %}
-                    <div style="color: red;">No casino selected. Please choose a casino.</div>
-                {% endif %}
-            </div>
-            <a href="{{ url_for('casinos', simulation_id=simulation.id) }}" class="button">
-                {% if simulation.casino %}Change Casino{% else %}Choose Casino{% endif %}
-            </a>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 1rem; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">
-            <div id="strategy-info" style="flex-grow: 1;">
-                {% if simulation.strategy %}
-                    <div><strong>Strategy:</strong> {{ simulation.strategy }}</div>
-                {% else %}
-                    <div style="color: red;">No strategy selected. Please choose a strategy.</div>
-                {% endif %}
-            </div>
-            <a href="{{ url_for('strategies', simulation_id=simulation.id) }}" class="button">
-                {% if simulation.strategy %}Change Strategy{% else %}Choose Strategy{% endif %}
-            </a>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-bottom: 1rem; border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">
-            <div id="betting-strategy-info" style="flex-grow: 1;">
-                {% if simulation.betting_strategy %}
-                    <div><strong>Betting Strategy:</strong> {{ simulation.betting_strategy.name }}</div>
-                {% else %}
-                    <div style="color: red;">No betting strategy selected. Please choose a betting strategy.</div>
-                {% endif %}
-            </div>
-            <a href="{{ url_for('betting_strategies_selection', simulation_id=simulation.id) }}" class="button">
-                {% if simulation.betting_strategy %}Change Betting Strategy{% else %}Choose Betting Strategy{% endif %}
-            </a>
-        </div>
-
-        <label for="iterations">Iterations:</label><br>
-        <input type="number" id="iterations" name="iterations" value="{{ simulation.iterations if simulation else 100 }}" style="width: 100%; margin-bottom: 1rem;"><br>
-
-        <label for="notes">Notes:</label><br>
-        <textarea id="notes" name="notes" rows="4" style="width: 100%; margin-bottom: 1rem;">{{ simulation.notes if simulation else '' }}</textarea><br>
-
-        <div style="display: flex; justify-content: space-between;">
-            <button type="submit" formaction="{{ url_for('run_simulation_page', simulation_id=simulation.id) }}">Save</button>
-            <button type="submit" formaction="{{ url_for('run_simulation_action', simulation_id=simulation.id) }}">Run Simulation</button>
+        <!-- Run Button -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-play"></i> Run Simulation</button>
         </div>
     </form>
+</div>
 {% endblock %}

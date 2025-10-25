@@ -1,15 +1,9 @@
 {% extends 'layout.html' %}
-
 {% block content %}
     <h1>Betting Strategies</h1>
-
-    <h2>Available Betting Strategies</h2>
     <ul>
         {% for strategy in betting_strategies %}
-            <li>
-                <strong>{{ strategy.name }}</strong>
-                <p>Min Bet: {{ strategy.min_bet }}</p>
-            </li>
+            <li>{{ strategy.name }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

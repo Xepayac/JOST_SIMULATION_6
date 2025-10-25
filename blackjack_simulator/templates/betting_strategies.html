@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Betting Strategies</h1>
 
-    <form method="post" action="{{ url_for('betting_strategies_selection', simulation_id=simulation.id) }}">
+    <form method="post" action="{{ url_for('select_betting_strategy', simulation_id=simulation.id) }}">
         <label for="betting_strategy">Choose a Betting Strategy:</label>
         <select name="betting_strategy" id="betting_strategy">
             {% for strategy in betting_strategies %}

@@ -13,9 +13,7 @@
                 <span>{{ casino.name }}</span>
                 <div class="list-item-actions">
                     {% if simulation_id %}
-                        <form action="{{ url_for('add_casino') }}" method="post" style="display: inline;">
-                            <input type="hidden" name="casino_name" value="{{ casino.name }}">
-                            <input type="hidden" name="simulation_id" value="{{ simulation_id }}">
+                        <form action="{{ url_for('select_casino', simulation_id=simulation_id, casino_id=casino.id) }}" method="post" style="display: inline;">
                             <button type="submit" class="button">Choose</button>
                         </form>
                     {% endif %}
