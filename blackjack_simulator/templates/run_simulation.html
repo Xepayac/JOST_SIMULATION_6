@@ -8,7 +8,7 @@ Run Simulation: {{ simulation.title }}
 <div class="container">
     <h1 class="my-4">Run Simulation: <small>{{ simulation.title }}</small></h1>
 
-    <form action="{{ url_for('run_simulation_action', simulation_id=simulation.id) }}" method="POST">
+    <form action="{{ url_for('main.run_simulation_action', simulation_id=simulation.id) }}" method="POST">
         <div class="row">
             <!-- Column for Player, Casino, Strategies -->
             <div class="col-md-6">
@@ -67,6 +67,12 @@ Run Simulation: {{ simulation.title }}
                 <div class="form-group">
                     <label for="iterations"><h4><i class="fas fa-redo"></i> Iterations (Hands to Play)</h4></label>
                     <input type="number" class="form-control" id="iterations" name="iterations" value="{{ simulation.iterations or 1000000 }}" min="1">
+                </div>
+
+                <!-- True Count Threshold -->
+                <div class="form-group">
+                    <label for="true_count_threshold"><h4><i class="fas fa-chart-line"></i> True Count Threshold</h4></label>
+                    <input type="number" class="form-control" id="true_count_threshold" name="true_count_threshold" value="1" min="0">
                 </div>
 
                 <!-- Notes -->

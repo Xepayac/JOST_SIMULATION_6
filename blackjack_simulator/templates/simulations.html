@@ -3,15 +3,15 @@
 {% block content %}
     <div class="header-container">
         <h1>Saved Simulations</h1>
-        <a href="{{ url_for('new_simulation') }}" class="button">New Simulation</a>
+        <a href="{{ url_for('main.new_simulation') }}" class="button">New Simulation</a>
     </div>
 
     <div class="sort-options">
         <span>Sort by:</span>
-        <a href="{{ url_for('simulations', sort_by='timestamp', order='desc') }}">Newest First</a> |
-        <a href="{{ url_for('simulations', sort_by='timestamp', order='asc') }}">Oldest First</a> |
-        <a href="{{ url_for('simulations', sort_by='name', order='asc') }}">Name (A-Z)</a> |
-        <a href="{{ url_for('simulations', sort_by='name', order='desc') }}">Name (Z-A)</a>
+        <a href="{{ url_for('main.simulations', sort_by='timestamp', order='desc') }}">Newest First</a> |
+        <a href="{{ url_for('main.simulations', sort_by='timestamp', order='asc') }}">Oldest First</a> |
+        <a href="{{ url_for('main.simulations', sort_by='name', order='asc') }}">Name (A-Z)</a> |
+        <a href="{{ url_for('main.simulations', sort_by='name', order='desc') }}">Name (Z-A)</a>
     </div>
 
     <table class="simulations-table">
@@ -26,14 +26,14 @@
             {% for simulation in simulations %}
                 <tr>
                     <td>
-                        <a href="{{ url_for('run_simulation_page', simulation_id=simulation.id) }}">
+                        <a href="{{ url_for('main.run_simulation_page', simulation_id=simulation.id) }}">
                             {{ simulation.title }}
                         </a>
                     </td>
                     <td>{{ simulation.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                     <td class="action-buttons">
-                        <a href="{{ url_for('run_simulation_page', simulation_id=simulation.id) }}" class="button edit-button">Edit</a>
-                        <form action="{{ url_for('delete_simulation', simulation_id=simulation.id) }}" method="post" style="display: inline;">
+                        <a href="{{ url_for('main.run_simulation_page', simulation_id=simulation.id) }}" class="button edit-button">Edit</a>
+                        <form action="{{ url_for('main.delete_simulation', simulation_id=simulation.id) }}" method="post" style="display: inline;">
                             <button type="submit" class="button delete-button">Delete</button>
                         </form>
                     </td>

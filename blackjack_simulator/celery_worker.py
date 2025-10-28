@@ -2,11 +2,22 @@
 import os
 import sys
 import json
+import logging
 from celery import Celery
 from celery.signals import worker_ready
 
 # Add backend/src to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'backend', 'src')))
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("debug.log"),
+        logging.StreamHandler()
+    ]
+)
 
 # Imports from backend engine
 from jost_engine.game import Game
@@ -26,9 +37,9 @@ celery = Celery(
 # --- Diagnostic Logging --- 
 @worker_ready.connect
 def log_registered_tasks(sender, **kwargs):
-    print("--- Worker is ready. Registered tasks: ---")
-    print(sender.app.tasks.keys())
-    print("-----------------------------------------")
+    logging.info("--- Worker is ready. Registered tasks: ---")
+    logging.info(sender.app.tasks.keys())
+    logging.info("-----------------------------------------")
 
 # --- Betting Strategy Class ---
 class RampBettingStrategy(BettingStrategyABC):
@@ -53,79 +64,92 @@ class RampBettingStrategy(BettingStrategyABC):
         return self.min_bet
 
 # --- Celery Task Definition ---
-@celery.task
+@celery.task(name='jost_simulation_task')
 def run_jost_simulation_task(simulation_config):
     """
     Celery task to run the Jost Engine simulation.
     """
-    print("--- Starting Jost Simulation Task ---")
-    if not simulation_config:
-        return {"error": "No simulation configuration provided."}
-
-    # Extract details from simulation_config
-    player_details = simulation_config.get("player")
-    casino_config = simulation_config.get("casino")
-    strategy_config = simulation_config.get("strategy")
-    betting_strategy_details = simulation_config.get("betting_strategy")
-    iterations = simulation_config.get("iterations")
-
-    if not all([player_details, casino_config, strategy_config, betting_strategy_details, iterations is not None]):
-        return {"error": "Incomplete simulation configuration."}
-
-    # Setup the game from config
+    logging.info("--- Starting Jost Simulation Task ---")
     try:
-        # Create the playing strategy
-        game_config_for_strategy = {
-            "hit_on_soft_17": not casino_config.get("dealer_stands_on_soft_17", True)
-        }
-        playing_strategy = create_playing_strategy(
-            strategy_config=strategy_config,
-            game_config=game_config_for_strategy
-        )
+        if not simulation_config:
+            logging.error("No simulation configuration provided.")
+            return {"error": "No simulation configuration provided."}
 
-        # Create the betting strategy from the ramp
-        betting_strategy = RampBettingStrategy(
-            min_bet=betting_strategy_details.get("min_bet", 10),
-            ramp=betting_strategy_details.get("bet_ramp", [])
-        )
+        logging.info(f"Received simulation_config: {simulation_config}")
 
-        # Create the player
-        player = Player(
-            player_id=1,
-            name=player_details.get("name"),
-            bankroll=player_details.get("bankroll"),
-            playing_strategy=playing_strategy,
-            betting_strategy=betting_strategy
-        )
+        player_details = simulation_config.get("player")
+        casino_config = simulation_config.get("casino")
+        strategy_config = simulation_config.get("strategy")
+        betting_strategy_details = simulation_config.get("betting_strategy")
+        iterations = simulation_config.get("iterations")
+        true_count_threshold = simulation_config.get("true_count_threshold", 1)
 
-        # Create the dealer
-        dealer = Dealer()
+        if not all([player_details, casino_config, strategy_config, betting_strategy_details, iterations is not None]):
+            logging.error(f"Incomplete simulation configuration: {simulation_config}")
+            return {"error": "Incomplete simulation configuration."}
 
-        # Create the simulation logger
-        game_logger = SimulationLogger()
-        
-        # Create the full game config dictionary
-        game_config = casino_config.copy()
-        game_config['hit_on_soft_17'] = not casino_config.get("dealer_stands_on_soft_17", True)
-        game_config['num_decks'] = casino_config.get('deck_count')
+        try:
+            game_config_for_strategy = {
+                "hit_on_soft_17": not casino_config.get("dealer_stands_on_soft_17", True)
+            }
+            logging.info(f"Creating playing strategy with strategy_config: {strategy_config} and game_config: {game_config_for_strategy}")
+            playing_strategy = create_playing_strategy(
+                strategy_config=strategy_config,
+                game_config=game_config_for_strategy
+            )
+            logging.info(f"Successfully created playing strategy: {playing_strategy.__class__.__name__}")
 
-        # Create the game object
-        game = Game(
-            players=[player],
-            dealer=dealer,
-            config=game_config,
-            logger=game_logger
-        )
+            bet_ramp_data = betting_strategy_details.get("bet_ramp", [])
+            bet_ramp = []
+            if isinstance(bet_ramp_data, dict):
+                bet_ramp = [{'count_threshold': int(k), 'bet_multiplier': v} for k, v in bet_ramp_data.items()]
+            elif isinstance(bet_ramp_data, list):
+                if bet_ramp_data and isinstance(bet_ramp_data[0], str):
+                    bet_ramp = [json.loads(item) for item in bet_ramp_data]
+                else:
+                    bet_ramp = bet_ramp_data
 
-        # Run the simulation
-        results = game.run_simulation(num_rounds=iterations, headless=True)
+            betting_strategy = RampBettingStrategy(
+                min_bet=betting_strategy_details.get("min_bet", 10),
+                ramp=bet_ramp
+            )
 
-        # Retrieve and return results
-        print("--- Jost Simulation Task Finished ---")
-        return json.loads(json.dumps(results, default=str))
+            player = Player(
+                player_id=1,
+                name=player_details.get("name"),
+                bankroll=player_details.get("bankroll"),
+                playing_strategy=playing_strategy,
+                betting_strategy=betting_strategy
+            )
+
+            dealer = Dealer()
+            game_logger = SimulationLogger()
+
+            game_config = casino_config.copy()
+            game_config['hit_on_soft_17'] = not casino_config.get("dealer_stands_on_soft_17", True)
+            game_config['num_decks'] = casino_config.get('deck_count')
+            game_config['true_count_threshold'] = true_count_threshold
+
+            game = Game(
+                players=[player],
+                dealer=dealer,
+                config=game_config,
+                logger=game_logger
+            )
+
+            logging.info(f"Running simulation for {iterations} rounds.")
+            results = game.run_simulation(num_rounds=iterations, headless=True)
+
+            logging.info("--- Jost Simulation Task Finished ---")
+            return json.loads(json.dumps(results, default=str))
+
+        except SystemExit as e:
+            logging.error(f"Caught SystemExit with code: {e.code}", exc_info=True)
+            raise
+        except Exception as e:
+            logging.error(f"Error during simulation setup or execution: {e}", exc_info=True)
+            raise
 
     except Exception as e:
-        print(f"Error during simulation setup or execution: {e}")
-        # Raising the exception will mark the task as FAILED and report the error
+        logging.error(f"An unexpected error occurred in the main task execution: {e}", exc_info=True)
         raise
-

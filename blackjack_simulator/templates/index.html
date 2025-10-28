@@ -3,6 +3,6 @@
 {% block content %}
     <h1>Welcome to the Blackjack Simulator</h1>
     <p>You can create a new simulation, view existing ones, or manage players and casinos.</p>
-    <a href="{{ url_for('new_simulation') }}" class="button">Create New Simulation</a>
-    <a href="{{ url_for('simulations') }}" class="button">View Saved Simulations</a>
+    <a href="{{ url_for('main.new_simulation') }}" class="button">Create New Simulation</a>
+    <a href="{{ url_for('main.simulations') }}" class="button">View Saved Simulations</a>
 {% endblock %}

@@ -20,7 +20,7 @@
                     <td>{{ result.casino_name }}</td>
                     <td>{{ result.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                     <td>
-                        <a href="{{ url_for('result_page', result_id=result.id) }}">View Details</a>
+                        <a href="{{ url_for('main.result_page', result_id=result.id) }}">View Details</a>
                     </td>
                 </tr>
             {% endfor %}

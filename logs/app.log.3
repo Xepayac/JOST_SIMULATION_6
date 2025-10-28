@@ -1,0 +1,137 @@
+2025-10-26 08:30:25,780 ERROR: Exception on /simulation/1/run_action [POST] [in /home/user/jostmva/.venv/lib/python3.12/site-packages/flask/app.py:838]
+Traceback (most recent call last):
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 855, in connect_check_health
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/retry.py", line 116, in call_with_retry
+    return do()
+           ^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 856, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 1306, in _connect
+    raise err
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 1290, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 127, in reconnect_on_error
+    yield
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 177, in _consume_from
+    self._pubsub.subscribe(key)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/client.py", line 1085, in subscribe
+    ret_val = self.execute_command("SUBSCRIBE", *new_channels.keys())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/client.py", line 909, in execute_command
+    self.connection = self.connection_pool.get_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/utils.py", line 196, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 2601, in get_connection
+    connection.connect()
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 846, in connect
+    self.connect_check_health(check_health=True)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 863, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 855, in connect_check_health
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/retry.py", line 116, in call_with_retry
+    return do()
+           ^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 856, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 1306, in _connect
+    raise err
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 1290, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/kombu/connection.py", line 472, in _reraise_as_library_errors
+    yield
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/app/base.py", line 929, in send_task
+    self.backend.on_task_call(P, task_id)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 378, in on_task_call
+    self.result_consumer.consume_from(task_id)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 169, in consume_from
+    return self.start(task_id)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 147, in start
+    self._consume_from(initial_task_id)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 176, in _consume_from
+    with self.reconnect_on_error():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 130, in reconnect_on_error
+    self._ensure(self._reconnect_pubsub, ())
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 389, in ensure
+    return retry_over_time(
+           ^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/kombu/utils/functional.py", line 318, in retry_over_time
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/backends/redis.py", line 106, in _reconnect_pubsub
+    metas = self.backend.client.mget(self.subscribed_to)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/commands/core.py", line 1999, in mget
+    return self.execute_command("MGET", *args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/client.py", line 657, in execute_command
+    return self._execute_command(*args, **options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/client.py", line 663, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/utils.py", line 196, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 2601, in get_connection
+    connection.connect()
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 846, in connect
+    self.connect_check_health(check_health=True)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/redis/connection.py", line 863, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. Connection refused.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/frontend/blackjack_simulator/routes.py", line 82, in run_simulation_action
+    task = celery.send_task('jost_simulation_task', args=[{
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/celery/app/base.py", line 927, in send_task
+    with P.connection._reraise_as_library_errors():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/home/user/jostmva/.venv/lib/python3.12/site-packages/kombu/connection.py", line 476, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 111 connecting to localhost:6379. Connection refused.
+2025-10-26 08:34:44,153 INFO: Blackjack Simulator startup [in /home/user/jostmva/frontend/blackjack_simulator/app.py:97]
+2025-10-26 08:35:58,434 INFO: Blackjack Simulator startup [in /home/user/jostmva/frontend/blackjack_simulator/app.py:97]
