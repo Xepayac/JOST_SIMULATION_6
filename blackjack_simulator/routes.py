@@ -1,15 +1,20 @@
+
 import os
+import sys
 import json
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
-from .models import db, Player, Casino, BettingStrategy, Simulation, Result
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app, Response
+
+from .models import db, Player, Casino, BettingStrategy, PlayingStrategy, Simulation, Result
 from .celery_worker import celery
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    latest_simulation = Simulation.query.order_by(Simulation.timestamp.desc()).first()
-    return redirect(url_for('main.run_simulation_page', simulation_id=latest_simulation.id)) if latest_simulation else redirect(url_for('main.simulations'))
+    if Simulation.query.count() > 0:
+        latest_simulation = Simulation.query.order_by(Simulation.timestamp.desc()).first()
+        return redirect(url_for('main.run_simulation_page', simulation_id=latest_simulation.id))
+    return redirect(url_for('main.new_simulation'))
 
 @main.route('/simulations')
 def simulations():
@@ -22,12 +27,26 @@ def new_simulation():
         title = request.form.get('title')
         if not title:
             flash('Title is required.', 'error')
-            return redirect(url_for('main.simulations'))
-        new_sim = Simulation(title=title)
+            return redirect(url_for('main.new_simulation'))
+        
+        default_player = Player.query.filter_by(is_default=True).first()
+        default_casino = Casino.query.filter_by(is_default=True).first()
+        default_playing_strategy = PlayingStrategy.query.filter_by(is_default=True).first()
+        default_betting_strategy = BettingStrategy.query.filter_by(is_default=True).first()
+
+        new_sim = Simulation(
+            title=title,
+            player=default_player,
+            casino=default_casino,
+            playing_strategy=default_playing_strategy,
+            betting_strategy=default_betting_strategy,
+            iterations=1000000
+        )
         db.session.add(new_sim)
         db.session.commit()
-        flash('Simulation created.', 'success')
+        flash(f"Simulation '{title}' created.", 'success')
         return redirect(url_for('main.run_simulation_page', simulation_id=new_sim.id))
+    
     return render_template('new_simulation.html')
 
 @main.route('/simulation/<int:simulation_id>/delete', methods=['POST'])
@@ -41,54 +60,64 @@ def delete_simulation(simulation_id):
 @main.route('/simulation/<int:simulation_id>/run', methods=['GET'])
 def run_simulation_page(simulation_id):
     simulation = Simulation.query.get_or_404(simulation_id)
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    strategies_dir = os.path.join(basedir, '..', '..', 'backend', 'src', 'jost_engine', 'data', 'strategies')
     return render_template('run_simulation.html',
                            simulation=simulation,
-                           players=Player.query.all(),
-                           casinos=Casino.query.all(),
-                           strategies=[f for f in os.listdir(strategies_dir) if f.endswith('.json')],
-                           betting_strategies=BettingStrategy.query.all())
+                           players=Player.query.order_by(Player.name).all(),
+                           casinos=Casino.query.order_by(Casino.name).all(),
+                           playing_strategies=PlayingStrategy.query.order_by(PlayingStrategy.name).all(),
+                           betting_strategies=BettingStrategy.query.order_by(BettingStrategy.name).all())
 
 @main.route('/simulation/<int:simulation_id>/run_action', methods=['POST'])
 def run_simulation_action(simulation_id):
+    current_app.logger.info(f'Processing simulation {simulation_id}...')
     sim = Simulation.query.get_or_404(simulation_id)
+
     sim.player_id = request.form.get('player_id')
     sim.casino_id = request.form.get('casino_id')
-    strategy_filename = request.form.get('strategy')
-    sim.strategy = strategy_filename
+    sim.playing_strategy_id = request.form.get('playing_strategy_id')
     sim.betting_strategy_id = request.form.get('betting_strategy_id')
     sim.iterations = int(request.form.get('iterations', 100))
     sim.notes = request.form.get('notes')
-    true_count_threshold = int(request.form.get('true_count_threshold', 1))
+    
+    db.session.commit()
 
-    if not all([sim.player, sim.casino, sim.strategy, sim.betting_strategy]):
+    player = Player.query.get(sim.player_id)
+    casino = Casino.query.get(sim.casino_id)
+    playing_strategy = PlayingStrategy.query.get(sim.playing_strategy_id)
+    betting_strategy = BettingStrategy.query.get(sim.betting_strategy_id)
+
+    if not all([player, casino, playing_strategy, betting_strategy]):
         flash('Player, Casino, Playing Strategy, and Betting Strategy must all be selected.', 'error')
         return redirect(url_for('main.run_simulation_page', simulation_id=sim.id))
 
-    # Construct path to strategy file
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    strategies_dir = os.path.join(basedir, '..', '..', 'backend', 'src', 'jost_engine', 'data', 'strategies')
-    strategy_path = os.path.join(strategies_dir, strategy_filename)
+    player_data = player.to_dict()
+    casino_data = casino.to_dict()
+    strategy_data = playing_strategy.to_dict()
+    betting_strategy_data = betting_strategy.to_dict()
 
-    # Read and parse the strategy JSON file
-    try:
-        with open(strategy_path, 'r') as f:
-            strategy_config = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        flash(f'Error loading strategy file: {e}', 'error')
-        return redirect(url_for('main.run_simulation_page', simulation_id=sim.id))
-
-    task = celery.send_task('jost_simulation_task', args=[{
-        "player": sim.player.to_dict(),
-        "casino": sim.casino.to_dict(),
-        "strategy": strategy_config,
-        "betting_strategy": sim.betting_strategy.to_dict(),
+    simulation_config = {
+        "player": player_data,
+        "casino": casino_data,
+        "playing_strategy_name": playing_strategy.name,
+        "strategy": strategy_data,
+        "betting_strategy": betting_strategy_data,
         "iterations": sim.iterations,
-        "true_count_threshold": true_count_threshold
-    }])
-    sim.task_id = task.id
-    db.session.commit()
+        "true_count_threshold": int(request.form.get('true_count_threshold', 1)),
+        "log_hands": request.form.get('log_hands') == 'true'
+    }
+    
+    simulation_config_json = json.dumps(simulation_config)
+
+    try:
+        task = celery.send_task('jost_simulation_task', args=[simulation_config_json])
+        sim.task_id = task.id
+        db.session.commit()
+        current_app.logger.info(f'Task {task.id} sent to Celery for simulation {sim.id}')
+    except Exception as e:
+        current_app.logger.error(f'Error sending task to Celery: {e}')
+        flash('Error starting simulation. Please check the logs.', 'error')
+        return redirect(url_for('main.run_simulation_page', simulation_id=sim.id))
+    
     flash('Simulation started! You will be redirected to the results page when it is complete.', 'success')
     return redirect(url_for('main.simulation_status', simulation_id=sim.id))
 
@@ -100,45 +129,78 @@ def simulation_status(simulation_id):
 @main.route('/task_status/<task_id>')
 def task_status(task_id):
     task = celery.AsyncResult(task_id)
+
     if task.state == 'SUCCESS':
-        outcomes = task.get()
+        current_app.logger.info(f"Task {task.id} succeeded. Processing results.")
+        results_data = task.get()
         sim = Simulation.query.filter_by(task_id=task_id).first()
         if not sim:
-            return jsonify({'state': 'ERROR', 'status': 'Simulation not found.'})
+            current_app.logger.error(f"FATAL: Simulation not found for task_id {task_id}")
+            return jsonify({'state': 'ERROR', 'status': 'Simulation not found for this.'})
         
+        # --- DEFINITIVE FIX: Robustly extract the single player's results ---
+        if not results_data or not isinstance(results_data, dict) or not list(results_data.values()):
+            current_app.logger.error(f"Invalid or empty results data for task {task.id}: {results_data}")
+            flash('Error processing simulation results.', 'error')
+            return jsonify({'state': 'ERROR', 'status': 'Invalid results data.'})
+
+        player_name = list(results_data.keys())[0]
+        outcomes = list(results_data.values())[0]
+        hand_history = outcomes.pop('hand_history', None)
+
+        current_app.logger.info(f"Found simulation {sim.id} for task {task.id}. Creating result.")
         new_result = Result(
-            simulation_id=sim.id, player_name=sim.player.name, casino_name=sim.casino.name,
-            strategy=sim.strategy, betting_strategy_name=sim.betting_strategy.name,
-            starting_bankroll=sim.player.bankroll, iterations=sim.iterations,
-            notes=sim.notes, outcomes=json.dumps(outcomes)
+            simulation_id=sim.id, 
+            player_name=player_name, 
+            casino_name=sim.casino.name,
+            strategy=sim.playing_strategy.name,
+            betting_strategy_name=sim.betting_strategy.name,
+            starting_bankroll=sim.player.bankroll, 
+            iterations=sim.iterations,
+            notes=sim.notes, 
+            outcomes=json.dumps(outcomes),
+            hand_history=json.dumps(hand_history) if hand_history else None
         )
         db.session.add(new_result)
         db.session.commit()
+        current_app.logger.info(f"Result {new_result.id} created for simulation {sim.id}. Redirecting.")
         return jsonify({'state': 'SUCCESS', 'result_url': url_for('main.result_page', result_id=new_result.id)})
     
-    status = 'Pending...' if task.state == 'PENDING' else 'Running...' if task.state != 'FAILURE' else str(task.info)
+    elif task.state == 'FAILURE':
+        current_app.logger.error(f"Task {task.id} failed. Reason: {task.info}")
+        status = str(task.info)
+    else:
+        status = 'In Progress'
+
     return jsonify({'state': task.state, 'status': status})
 
 @main.route('/results/<int:result_id>')
 def result_page(result_id):
     result = Result.query.get_or_404(result_id)
-    current_app.logger.info(f"Attempting to load results for result_id: {result_id}")
-    current_app.logger.info(f"Raw outcomes data: {result.outcomes}")
     try:
         outcomes = json.loads(result.outcomes)
-        is_new_format = isinstance(outcomes, list)
-    except json.JSONDecodeError as e:
-        current_app.logger.error(f"JSONDecodeError for result_id {result_id}: {e}")
-        current_app.logger.error(f"Malformed JSON data: {result.outcomes}")
+    except json.JSONDecodeError:
         flash('Error decoding simulation results. The data may be corrupt.', 'error')
-        # Redirect to a safe page, or render an error template
         return redirect(url_for('main.results_list'))
 
-    return render_template('result_details.html',
-                           result=result,
-                           outcomes=outcomes,
-                           is_new_format=is_new_format)
+    return render_template('result_details.html', 
+                           result=result, 
+                           outcomes=outcomes)
+
+@main.route('/results/<int:result_id>/download_history')
+def download_history(result_id):
+    result = Result.query.get_or_404(result_id)
+    if not result.hand_history:
+        flash('No hand history available for this result.', 'error')
+        return redirect(url_for('main.result_page', result_id=result.id))
+
+    return Response(
+        result.hand_history,
+        mimetype='application/json',
+        headers={'Content-Disposition': f'attachment;filename=hand_history_{result.id}.json'}
+    )
 
 @main.route('/results')
 def results_list():
-    return render_template('results_list.html', results=Result.query.order_by(Result.timestamp.desc()).all())
+    results = Result.query.order_by(Result.timestamp.desc()).all()
+    return render_template('results_list.html', results=results)

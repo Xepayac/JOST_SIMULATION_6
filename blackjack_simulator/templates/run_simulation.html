@@ -36,13 +36,13 @@ Run Simulation: {{ simulation.title }}
                     </select>
                 </div>
 
-                <!-- Playing Strategy Selection -->
+                <!-- Playing Strategy Selection (Corrected) -->
                 <div class="form-group">
-                    <label for="strategy"><h4><i class="fas fa-brain"></i> Playing Strategy</h4></label>
-                    <select class="form-control" id="strategy" name="strategy">
-                        {% for strategy_file in strategies %}
-                        <option value="{{ strategy_file }}" {% if simulation.strategy == strategy_file %}selected{% endif %}>
-                            {{ strategy_file.replace('.json', '') }}
+                    <label for="playing_strategy_id"><h4><i class="fas fa-brain"></i> Playing Strategy</h4></label>
+                    <select class="form-control" id="playing_strategy_id" name="playing_strategy_id">
+                        {% for playing_strategy in playing_strategies %}
+                        <option value="{{ playing_strategy.id }}" {% if simulation.playing_strategy_id == playing_strategy.id %}selected{% endif %}>
+                            {{ playing_strategy.name }}
                         </option>
                         {% endfor %}
                     </select>
@@ -69,10 +69,11 @@ Run Simulation: {{ simulation.title }}
                     <input type="number" class="form-control" id="iterations" name="iterations" value="{{ simulation.iterations or 1000000 }}" min="1">
                 </div>
 
-                <!-- True Count Threshold -->
+                <!-- True Count Threshold (Note: This is not currently wired up in the refactored backend) -->
                 <div class="form-group">
                     <label for="true_count_threshold"><h4><i class="fas fa-chart-line"></i> True Count Threshold</h4></label>
                     <input type="number" class="form-control" id="true_count_threshold" name="true_count_threshold" value="1" min="0">
+                    <small class="form-text text-muted">Note: This is not currently used by the simulation engine.</small>
                 </div>
 
                 <!-- Notes -->
@@ -80,6 +81,16 @@ Run Simulation: {{ simulation.title }}
                     <label for="notes"><h4><i class="fas fa-clipboard"></i> Notes</h4></label>
                     <textarea class="form-control" id="notes" name="notes" rows="8">{{ simulation.notes or '' }}</textarea>
                 </div>
+                
+                <!-- Hand History Checkbox -->
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" value="true" id="log_hands" name="log_hands">
+                    <label class="form-check-label" for="log_hands">
+                        <h5><i class="fas fa-history"></i> Record Hand-by-Hand History</h5>
+                        <small class="text-warning">Warning: This will significantly slow down the simulation.</small>
+                    </label>
+                </div>
+
             </div>
         </div>
 

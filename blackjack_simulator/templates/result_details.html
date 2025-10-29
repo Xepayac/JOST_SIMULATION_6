@@ -1,68 +1,72 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Results for {{ result.simulation.title }}</h1>
-    <p><small>Run on: {{ result.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small></p>
-    
-    <h2>Configuration</h2>
-    <p><strong>Player:</strong> {{ result.player_name }}</p>
-    <p><strong>Casino:</strong> {{ result.casino_name }}</p>
-    <p><strong>Playing Strategy:</strong> {{ result.strategy }}</p>
-    <p><strong>Betting Strategy:</strong> {{ result.betting_strategy_name }}</p>
-    <p><strong>Starting Bankroll:</strong> {{ result.starting_bankroll }}</p>
-    <p><strong>Iterations:</strong> {{ result.iterations }}</p>
-    {% if result.notes %}
-    <p><strong>Notes:</strong></p>
-    <pre>{{ result.notes }}</pre>
-    {% endif %}
+    <div class="container">
+        <h1 class="my-4">Results for <small>{{ result.simulation.title }}</small></h1>
+        <p class="text-muted">Run on: {{ result.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
 
-    {% if is_new_format %}
-        <h2>Rounds</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Round</th>
-                    <th>Player Hand</th>
-                    <th>Actions</th>
-                    <th>Dealer Hand</th>
-                    <th>Outcome</th>
-                    <th>Payout</th>
-                    <th>Player Bankroll</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for outcome in outcomes %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ outcome.player_cards|join(', ') }}</td>
-                        <td>{{ outcome.actions|join(', ') if outcome.actions else 'N/A' }}</td>
-                        <td>{{ outcome.dealer_cards|join(', ') }}</td>
-                        <td>{{ outcome.outcome }}</td>
-                        <td>{{ outcome.payout }}</td>
-                        <td>{{ outcome.player_bankroll }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <h2>Summary</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Outcome</th>
-                    <th>Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for outcome, count in outcomes.items() %}
-                    <tr>
-                        <td>{{ outcome }}</td>
-                        <td>{{ count }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4><i class="fas fa-cogs"></i> Configuration</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong><i class="fas fa-user"></i> Player:</strong> {{ result.player_name }}</p>
+                        <p><strong><i class="fas fa-building"></i> Casino:</strong> {{ result.casino_name }}</p>
+                        <p><strong><i class="fas fa-brain"></i> Playing Strategy:</strong> {{ result.strategy }}</p>
+                        <p><strong><i class="fas fa-dollar-sign"></i> Betting Strategy:</strong> {{ result.betting_strategy_name }}</p>
+                        <p><strong><i class="fas fa-wallet"></i> Starting Bankroll:</strong> ${{ result.starting_bankroll }}</p>
+                        <p><strong><i class="fas fa-redo"></i> Iterations:</strong> {{ result.iterations }} hands</p>
+                    </div>
+                </div>
 
-    <a href="{{ url_for('main.results_list') }}" class="button">Back to Results List</a>
+                {% if result.notes %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4><i class="fas fa-clipboard"></i> Notes</h4>
+                    </div>
+                    <div class="card-body">
+                        <pre>{{ result.notes }}</pre>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4><i class="fas fa-chart-bar"></i> Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong><i class="fas fa-money-bill-wave"></i> Final Bankroll:</strong> ${{ "%.2f"|format(outcomes.final_bankroll) }}</p>
+                        <p><strong><i class="fas fa-balance-scale"></i> Net Gain/Loss:</strong> ${{ "%.2f"|format(outcomes.net_gain_loss) }}</p>
+                        <p><strong><i class="fas fa-coins"></i> Total Wagered:</strong> ${{ "%.2f"|format(outcomes.total_wagered) }}</p>
+                        <p><strong><i class="fas fa-percentage"></i> Player Edge:</strong> {{ "%.6f"|format(outcomes.player_edge * 100) }}%</p>
+                    </div>
+                </div>
+                
+                {% if result.hand_history %}
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-history"></i> Hand History</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>A detailed hand-by-hand history was recorded for this simulation.</p>
+                        <a href="{{ url_for('main.download_history', result_id=result.id) }}" class="btn btn-success">
+                            <i class="fas fa-download"></i> Download Hand History (JSON)
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <hr>
+
+        <a href="{{ url_for('main.run_simulation_page', simulation_id=result.simulation_id) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Simulation Setup</a>
+        <a href="{{ url_for('main.results_list') }}" class="btn btn-info"><i class="fas fa-list"></i> View All Results</a>
+
+    </div>
 {% endblock %}
