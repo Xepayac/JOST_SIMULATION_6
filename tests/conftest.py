@@ -3,9 +3,9 @@ from blackjack_simulator.app import create_app, init_db
 from blackjack_simulator.config import TestingConfig
 from blackjack_simulator.models import db
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def app():
-    """Create and configure a new app instance for each test module."""
+    """Create and configure a new app instance for each test."""
     app = create_app(config_class=TestingConfig)
 
     with app.app_context():
