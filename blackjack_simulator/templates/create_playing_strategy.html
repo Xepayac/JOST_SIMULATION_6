@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="my-4">Create Playing Strategy</h1>
+    <p>This form is pre-populated with the default playing strategy. You can modify it and save it as a new custom strategy.</p>
+    <form method="POST" action="{{ url_for('management.create_playing_strategy') }}">
+        <div class="form-group">
+            <label for="name">Strategy Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ strategy.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required>{{ strategy.description }}</textarea>
+        </div>
+
+        <h3 class="mt-5">Hard Totals</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm strategy-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Player Hand</th>
+                        {% for dealer_card in dealer_cards %}
+                        <th scope="col">{{ dealer_card }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player_total in strategy.hard_totals.keys()|sort(reverse=True) %}
+                    <tr>
+                        <th scope="row">{{ player_total }}</th>
+                        {% for dealer_card in dealer_cards %}
+                        <td>
+                            <select class="form-control form-control-sm" name="hard_{{ player_total }}_{{ dealer_card }}">
+                                {% for action in actions %}
+                                <option value="{{ action }}" {% if strategy.hard_totals[player_total][dealer_card] == action %}selected{% endif %}>{{ action }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="mt-5">Soft Totals</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm strategy-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Player Hand</th>
+                        {% for dealer_card in dealer_cards %}
+                        <th scope="col">{{ dealer_card }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player_total in strategy.soft_totals.keys()|sort(reverse=True) %}
+                    <tr>
+                        <th scope="row">{{ player_total }}</th>
+                        {% for dealer_card in dealer_cards %}
+                        <td>
+                            <select class="form-control form-control-sm" name="soft_{{ player_total }}_{{ dealer_card }}">
+                                {% for action in actions %}
+                                <option value="{{ action }}" {% if strategy.soft_totals[player_total][dealer_card] == action %}selected{% endif %}>{{ action }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="mt-5">Pair Splitting</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm strategy-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Player Hand</th>
+                        {% for dealer_card in dealer_cards %}
+                        <th scope="col">{{ dealer_card }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player_pair in strategy.pairs.keys()|sort(reverse=True) %}
+                    <tr>
+                        <th scope="row">{{ player_pair }}</th>
+                        {% for dealer_card in dealer_cards %}
+                        <td>
+                            <select class="form-control form-control-sm" name="pair_{{ player_pair }}_{{ dealer_card }}">
+                                {% for action in actions %}
+                                <option value="{{ action }}" {% if strategy.pairs[player_pair][dealer_card] == action %}selected{% endif %}>{{ action }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary">Save New Strategy</button>
+            <a href="{{ url_for('management.list_playing_strategies') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

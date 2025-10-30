@@ -146,6 +146,8 @@ def create_app(config_class=Config):
     # --- Register Blueprints ---
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    from .management import management_bp
+    app.register_blueprint(management_bp)
     
     # --- Register Commands ---
     app.cli.add_command(init_db_command)

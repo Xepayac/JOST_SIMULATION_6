@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Edit Betting Strategy</h1>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label(class="form-control-label") }}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.min_bet.label(class="form-control-label") }}
+            {{ form.min_bet(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.bet_ramp.label(class="form-control-label") }}
+            {{ form.bet_ramp(class="form-control", rows=10) }}
+            <small class="form-text text-muted">
+                Enter a valid JSON object. For example: code>{"1": 10, "2": 50, "3": 100}</code>
+            </small>
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
