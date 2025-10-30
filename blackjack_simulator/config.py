@@ -14,3 +14,9 @@ class Config:
     # Celery Configuration
     CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL') or 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND') or 'redis://localhost:6379/0'
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'  # Use in-memory SQLite database for tests
+    WTF_CSRF_ENABLED = False  # Disable CSRF for testing forms
+    CELERY_TASK_ALWAYS_EAGER = True  # Run Celery tasks synchronously for testing
