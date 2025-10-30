@@ -1,24 +1,25 @@
 import pytest
-from blackjack_simulator.app import create_app
-from blackjack_simulator.app import db as _db
+from blackjack_simulator.app import create_app, db as _db, init_db
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope='function')
 def app():
-    """Create a new app instance for each test."""
+    """Function-wide test Flask application."""
     app = create_app('testing')
-    app.config['SERVER_NAME'] = 'localhost'
-    return app
-
-@pytest.fixture
-def client(app):
-    """A test client for the app."""
-    with app.test_request_context():
-        yield app.test_client()
-
-@pytest.fixture(scope='session')
-def db(app):
-    """Session-wide test database."""
     with app.app_context():
         _db.create_all()
-        yield _db
+        init_db()  # Initialize the database with default profiles
+        yield app
         _db.drop_all()
+
+
+@pytest.fixture()
+def client(app):
+    """A test client for the app."""
+    return app.test_client()
+
+
+@pytest.fixture
+def runner(app):
+    """A test runner for the app's Click commands."""
+    return app.test_cli_runner()

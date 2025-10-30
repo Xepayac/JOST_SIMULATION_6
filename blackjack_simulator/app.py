@@ -11,7 +11,7 @@ from flask.cli import with_appcontext
 # Correctly import all models
 from .models import db, Player, Casino, BettingStrategy, PlayingStrategy, Simulation
 from .celery_worker import celery
-from .config import Config
+from .config import config
 
 # --- Correctly locate the project root ---
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -126,14 +126,14 @@ def check_db_command():
 
 
 # --- Application Factory ---
-def create_app(config_class=Config):
+def create_app(config_name='default'):
     app = Flask(__name__)
 
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
 
-    app.config.from_object(config_class)
+    app.config.from_object(config[config_name])
 
     # --- Initialize Extensions ---
     db.init_app(app)
@@ -154,14 +154,15 @@ def create_app(config_class=Config):
     app.cli.add_command(check_db_command) # Register the new command
 
     # --- Configure Logging ---
-    log_dir = os.path.join(project_root, 'logs')
-    if not os.path.exists(log_dir):
-        os.mkdir(log_dir)
-    file_handler = RotatingFileHandler(os.path.join(log_dir, 'app.log'), maxBytes=10240, backupCount=10)
-    file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
+    if not app.debug and not app.testing:
+        log_dir = os.path.join(project_root, 'logs')
+        if not os.path.exists(log_dir):
+            os.mkdir(log_dir)
+        file_handler = RotatingFileHandler(os.path.join(log_dir, 'app.log'), maxBytes=10240, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Blackjack Simulator startup')

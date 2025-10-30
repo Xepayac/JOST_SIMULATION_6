@@ -20,3 +20,13 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'  # Use in-memory SQLite database for tests
     WTF_CSRF_ENABLED = False  # Disable CSRF for testing forms
     CELERY_TASK_ALWAYS_EAGER = True  # Run Celery tasks synchronously for testing
+    SERVER_NAME = 'localhost.localdomain' # Add server name for url_for to work in tests
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'default': Config
+}
