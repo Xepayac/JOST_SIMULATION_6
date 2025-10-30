@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from .models import db, Player, Casino, PlayingStrategy, BettingStrategy
 from .forms import PlayerForm, CasinoForm, BettingStrategyForm
 import json
@@ -12,7 +12,7 @@ def index():
 # Player Routes
 @management_bp.route('/players')
 def list_players():
-    players = Player.query.all()
+    players = db.session.query(Player).all()
     return render_template("list_players.html", players=players)
 
 @management_bp.route('/players/create', methods=['GET', 'POST'])
@@ -28,7 +28,9 @@ def create_player():
 
 @management_bp.route('/players/edit/<int:player_id>', methods=['GET', 'POST'])
 def edit_player(player_id):
-    player = Player.query.get_or_404(player_id)
+    player = db.session.get(Player, player_id)
+    if not player:
+        abort(404)
     if player.is_default:
         flash('The default player profile cannot be edited.', 'warning')
         return redirect(url_for('management.list_players'))
@@ -43,7 +45,9 @@ def edit_player(player_id):
 
 @management_bp.route('/players/delete/<int:player_id>', methods=['POST'])
 def delete_player(player_id):
-    player = Player.query.get_or_404(player_id)
+    player = db.session.get(Player, player_id)
+    if not player:
+        abort(404)
     if player.is_default:
         flash('The default player profile cannot be deleted.', 'danger')
         return redirect(url_for('management.list_players'))
@@ -55,7 +59,7 @@ def delete_player(player_id):
 # Casino Routes
 @management_bp.route('/casinos')
 def list_casinos():
-    casinos = Casino.query.all()
+    casinos = db.session.query(Casino).all()
     return render_template("list_casinos.html", casinos=casinos)
 
 @management_bp.route('/casinos/create', methods=['GET', 'POST'])
@@ -72,7 +76,9 @@ def create_casino():
 
 @management_bp.route('/casinos/edit/<int:casino_id>', methods=['GET', 'POST'])
 def edit_casino(casino_id):
-    casino = Casino.query.get_or_404(casino_id)
+    casino = db.session.get(Casino, casino_id)
+    if not casino:
+        abort(404)
     if casino.is_default:
         flash('The default casino profile cannot be edited.', 'warning')
         return redirect(url_for('management.list_casinos'))
@@ -86,7 +92,9 @@ def edit_casino(casino_id):
 
 @management_bp.route('/casinos/delete/<int:casino_id>', methods=['POST'])
 def delete_casino(casino_id):
-    casino = Casino.query.get_or_404(casino_id)
+    casino = db.session.get(Casino, casino_id)
+    if not casino:
+        abort(404)
     if casino.is_default:
         flash('The default casino profile cannot be deleted.', 'danger')
         return redirect(url_for('management.list_casinos'))
@@ -98,7 +106,7 @@ def delete_casino(casino_id):
 # Betting Strategy Routes
 @management_bp.route('/betting_strategies')
 def list_betting_strategies():
-    strategies = BettingStrategy.query.all()
+    strategies = db.session.query(BettingStrategy).all()
     return render_template("list_betting_strategies.html", strategies=strategies)
 
 @management_bp.route('/betting_strategies/create', methods=['GET', 'POST'])
@@ -115,7 +123,9 @@ def create_betting_strategy():
 
 @management_bp.route('/betting_strategies/edit/<int:strategy_id>', methods=['GET', 'POST'])
 def edit_betting_strategy(strategy_id):
-    strategy = BettingStrategy.query.get_or_404(strategy_id)
+    strategy = db.session.get(BettingStrategy, strategy_id)
+    if not strategy:
+        abort(404)
     if strategy.is_default:
         flash('The default betting strategy cannot be edited.', 'warning')
         return redirect(url_for('management.list_betting_strategies'))
@@ -129,7 +139,9 @@ def edit_betting_strategy(strategy_id):
 
 @management_bp.route('/betting_strategies/delete/<int:strategy_id>', methods=['POST'])
 def delete_betting_strategy(strategy_id):
-    strategy = BettingStrategy.query.get_or_404(strategy_id)
+    strategy = db.session.get(BettingStrategy, strategy_id)
+    if not strategy:
+        abort(404)
     if strategy.is_default:
         flash('The default betting strategy cannot be deleted.', 'danger')
         return redirect(url_for('management.list_betting_strategies'))
@@ -141,12 +153,12 @@ def delete_betting_strategy(strategy_id):
 # Playing Strategy Routes
 @management_bp.route('/playing_strategies')
 def list_playing_strategies():
-    strategies = PlayingStrategy.query.order_by(PlayingStrategy.is_default.desc(), PlayingStrategy.name).all()
+    strategies = db.session.query(PlayingStrategy).order_by(PlayingStrategy.is_default.desc(), PlayingStrategy.name).all()
     return render_template("list_playing_strategies.html", strategies=strategies)
 
 @management_bp.route('/playing_strategies/create', methods=['GET', 'POST'])
 def create_playing_strategy():
-    default_strategy = PlayingStrategy.query.filter_by(is_default=True).first()
+    default_strategy = db.session.query(PlayingStrategy).filter_by(is_default=True).first()
     
     if request.method == 'POST':
         hard_totals = {}
@@ -201,7 +213,9 @@ def create_playing_strategy():
 
 @management_bp.route('/playing_strategies/edit/<int:strategy_id>', methods=['GET', 'POST'])
 def edit_playing_strategy(strategy_id):
-    strategy = PlayingStrategy.query.get_or_404(strategy_id)
+    strategy = db.session.get(PlayingStrategy, strategy_id)
+    if not strategy:
+        abort(404)
     if strategy.is_default:
         flash('The default playing strategy cannot be edited. Please create a new one.', 'warning')
         return redirect(url_for('management.list_playing_strategies'))
@@ -256,7 +270,9 @@ def edit_playing_strategy(strategy_id):
 
 @management_bp.route('/playing_strategies/delete/<int:strategy_id>', methods=['POST'])
 def delete_playing_strategy(strategy_id):
-    strategy = PlayingStrategy.query.get_or_404(strategy_id)
+    strategy = db.session.get(PlayingStrategy, strategy_id)
+    if not strategy:
+        abort(404)
     if strategy.is_default:
         flash('The default playing strategy cannot be deleted.', 'danger')
         return redirect(url_for('management.list_playing_strategies'))

@@ -1,6 +1,6 @@
 
 import json
-from datetime import datetime
+from datetime import datetime, UTC
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -93,7 +93,7 @@ class Simulation(db.Model):
 
     notes = db.Column(db.Text, nullable=True)
     iterations = db.Column(db.Integer, nullable=False, default=100)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(UTC))
     
     player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=True)
     player = db.relationship('Player', backref='simulations')
@@ -117,7 +117,7 @@ class Result(db.Model):
     iterations = db.Column(db.Integer, nullable=False)
     notes = db.Column(db.Text, nullable=True)
     outcomes = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(UTC))
     
     # --- FEATURE: Add hand_history field ---
     hand_history = db.Column(db.Text, nullable=True)

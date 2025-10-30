@@ -2,7 +2,7 @@
 import os
 import sys
 import json
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app, Response
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app, Response, abort
 
 from .models import db, Player, Casino, BettingStrategy, PlayingStrategy, Simulation, Result
 from .celery_worker import celery
@@ -11,14 +11,14 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    if Simulation.query.count() > 0:
-        latest_simulation = Simulation.query.order_by(Simulation.timestamp.desc()).first()
+    if db.session.query(Simulation).count() > 0:
+        latest_simulation = db.session.query(Simulation).order_by(Simulation.timestamp.desc()).first()
         return redirect(url_for('main.run_simulation_page', simulation_id=latest_simulation.id))
     return redirect(url_for('main.new_simulation'))
 
 @main.route('/simulations')
 def simulations():
-    all_simulations = Simulation.query.order_by(Simulation.timestamp.desc()).all()
+    all_simulations = db.session.query(Simulation).order_by(Simulation.timestamp.desc()).all()
     return render_template('simulations.html', simulations=all_simulations)
 
 @main.route('/simulation/new', methods=['GET', 'POST'])
@@ -29,10 +29,10 @@ def new_simulation():
             flash('Title is required.', 'error')
             return redirect(url_for('main.new_simulation'))
         
-        default_player = Player.query.filter_by(is_default=True).first()
-        default_casino = Casino.query.filter_by(is_default=True).first()
-        default_playing_strategy = PlayingStrategy.query.filter_by(is_default=True).first()
-        default_betting_strategy = BettingStrategy.query.filter_by(is_default=True).first()
+        default_player = db.session.query(Player).filter_by(is_default=True).first()
+        default_casino = db.session.query(Casino).filter_by(is_default=True).first()
+        default_playing_strategy = db.session.query(PlayingStrategy).filter_by(is_default=True).first()
+        default_betting_strategy = db.session.query(BettingStrategy).filter_by(is_default=True).first()
 
         new_sim = Simulation(
             title=title,
@@ -51,7 +51,9 @@ def new_simulation():
 
 @main.route('/simulation/<int:simulation_id>/delete', methods=['POST'])
 def delete_simulation(simulation_id):
-    simulation = Simulation.query.get_or_404(simulation_id)
+    simulation = db.session.get(Simulation, simulation_id)
+    if not simulation:
+        abort(404)
     db.session.delete(simulation)
     db.session.commit()
     flash('Simulation and its results have been deleted.', 'success')
@@ -59,18 +61,22 @@ def delete_simulation(simulation_id):
 
 @main.route('/simulation/<int:simulation_id>/run', methods=['GET'])
 def run_simulation_page(simulation_id):
-    simulation = Simulation.query.get_or_404(simulation_id)
+    simulation = db.session.get(Simulation, simulation_id)
+    if not simulation:
+        abort(404)
     return render_template('run_simulation.html',
                            simulation=simulation,
-                           players=Player.query.order_by(Player.name).all(),
-                           casinos=Casino.query.order_by(Casino.name).all(),
-                           playing_strategies=PlayingStrategy.query.order_by(PlayingStrategy.name).all(),
-                           betting_strategies=BettingStrategy.query.order_by(BettingStrategy.name).all())
+                           players=db.session.query(Player).order_by(Player.name).all(),
+                           casinos=db.session.query(Casino).order_by(Casino.name).all(),
+                           playing_strategies=db.session.query(PlayingStrategy).order_by(PlayingStrategy.name).all(),
+                           betting_strategies=db.session.query(BettingStrategy).order_by(BettingStrategy.name).all())
 
 @main.route('/simulation/<int:simulation_id>/run_action', methods=['POST'])
 def run_simulation_action(simulation_id):
     current_app.logger.info(f'Processing simulation {simulation_id}...')
-    sim = Simulation.query.get_or_404(simulation_id)
+    sim = db.session.get(Simulation, simulation_id)
+    if not sim:
+        abort(404)
 
     sim.player_id = request.form.get('player_id')
     sim.casino_id = request.form.get('casino_id')
@@ -81,10 +87,10 @@ def run_simulation_action(simulation_id):
     
     db.session.commit()
 
-    player = Player.query.get(sim.player_id)
-    casino = Casino.query.get(sim.casino_id)
-    playing_strategy = PlayingStrategy.query.get(sim.playing_strategy_id)
-    betting_strategy = BettingStrategy.query.get(sim.betting_strategy_id)
+    player = db.session.get(Player, sim.player_id)
+    casino = db.session.get(Casino, sim.casino_id)
+    playing_strategy = db.session.get(PlayingStrategy, sim.playing_strategy_id)
+    betting_strategy = db.session.get(BettingStrategy, sim.betting_strategy_id)
 
     if not all([player, casino, playing_strategy, betting_strategy]):
         flash('Player, Casino, Playing Strategy, and Betting Strategy must all be selected.', 'error')
@@ -123,7 +129,9 @@ def run_simulation_action(simulation_id):
 
 @main.route('/simulation/<int:simulation_id>/status')
 def simulation_status(simulation_id):
-    simulation = Simulation.query.get_or_404(simulation_id)
+    simulation = db.session.get(Simulation, simulation_id)
+    if not simulation:
+        abort(404)
     return render_template('simulation_status.html', simulation=simulation)
 
 @main.route('/task_status/<task_id>')
@@ -133,7 +141,7 @@ def task_status(task_id):
     if task.state == 'SUCCESS':
         current_app.logger.info(f"Task {task.id} succeeded. Processing results.")
         results_data = task.get()
-        sim = Simulation.query.filter_by(task_id=task_id).first()
+        sim = db.session.query(Simulation).filter_by(task_id=task_id).first()
         if not sim:
             current_app.logger.error(f"FATAL: Simulation not found for task_id {task_id}")
             return jsonify({'state': 'ERROR', 'status': 'Simulation not found for this.'})
@@ -176,7 +184,9 @@ def task_status(task_id):
 
 @main.route('/results/<int:result_id>')
 def result_page(result_id):
-    result = Result.query.get_or_404(result_id)
+    result = db.session.get(Result, result_id)
+    if not result:
+        abort(404)
     try:
         outcomes = json.loads(result.outcomes)
     except json.JSONDecodeError:
@@ -189,7 +199,9 @@ def result_page(result_id):
 
 @main.route('/results/<int:result_id>/download_history')
 def download_history(result_id):
-    result = Result.query.get_or_404(result_id)
+    result = db.session.get(Result, result_id)
+    if not result:
+        abort(404)
     if not result.hand_history:
         flash('No hand history available for this result.', 'error')
         return redirect(url_for('main.result_page', result_id=result.id))
@@ -202,5 +214,5 @@ def download_history(result_id):
 
 @main.route('/results')
 def results_list():
-    results = Result.query.order_by(Result.timestamp.desc()).all()
+    results = db.session.query(Result).order_by(Result.timestamp.desc()).all()
     return render_template('results_list.html', results=results)
