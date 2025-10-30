@@ -190,7 +190,7 @@ def create_playing_strategy():
         "soft_totals": json.loads(default_strategy.soft_total_actions),
         "pairs": json.loads(default_strategy.pair_splitting_actions)
     }
-    actions = ['H', 'S', 'D', 'P', 'U']
+    actions = ['h', 's', 'd', 'p', 'u']
     dealer_cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A']
     
     return render_template('create_playing_strategy.html', 
@@ -244,7 +244,7 @@ def edit_playing_strategy(strategy_id):
         "soft_totals": json.loads(strategy.soft_total_actions),
         "pairs": json.loads(strategy.pair_splitting_actions)
     }
-    actions = ['H', 'S', 'D', 'P', 'U']
+    actions = ['h', 's', 'd', 'p', 'u']
     dealer_cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A']
     
     return render_template('edit_playing_strategy.html', 
